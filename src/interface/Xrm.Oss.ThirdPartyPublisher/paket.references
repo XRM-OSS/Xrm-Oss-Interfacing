@@ -1,0 +1,16 @@
+Castle.Core
+Castle.Windsor
+CsvHelper
+GreenPipes
+MassTransit
+MassTransit.CastleWindsor
+MassTransit.NLog
+MassTransit.RabbitMQ
+Microsoft.IdentityModel
+NewId
+Newtonsoft.Json
+Newtonsoft.Json.Bson
+NLog
+RabbitMQ.Client
+Topshelf
+Topshelf.NLog

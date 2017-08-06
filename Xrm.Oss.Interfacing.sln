@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7C6753E1-34C1-42FC-8B7F-E7C77902D1AA}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.Domain", "src\domain\Xrm.Oss.Interfacing.Domain\Xrm.Oss.Interfacing.Domain.csproj", "{5EDAD078-7559-4124-891E-20A6A8C420EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmPublisher", "src\interface\Xrm.Oss.CrmPublisher\Xrm.Oss.CrmPublisher.csproj", "{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmListener", "src\interface\Xrm.Oss.CrmListener\Xrm.Oss.CrmListener.csproj", "{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.ThirdPartyPublisher", "src\interface\Xrm.Oss.ThirdPartyPublisher\Xrm.Oss.ThirdPartyPublisher.csproj", "{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TopLevel", "TopLevel", "{CC6790BB-E807-4BBF-B704-6702E59E269D}"
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		build.fsx = build.fsx
+		README.MD = README.MD
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmConsumer", "src\interface\Xrm.Oss.CrmConsumer\Xrm.Oss.CrmConsumer.csproj", "{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EDAD078-7559-4124-891E-20A6A8C420EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDAD078-7559-4124-891E-20A6A8C420EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDAD078-7559-4124-891E-20A6A8C420EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDAD078-7559-4124-891E-20A6A8C420EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

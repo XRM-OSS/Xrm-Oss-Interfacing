@@ -1,0 +1,10 @@
+GreenPipes
+MassTransit
+MassTransit.NLog
+MassTransit.RabbitMQ
+Microsoft.CrmSdk.CoreAssemblies
+Microsoft.IdentityModel
+NewId
+Newtonsoft.Json
+NLog
+RabbitMQ.Client

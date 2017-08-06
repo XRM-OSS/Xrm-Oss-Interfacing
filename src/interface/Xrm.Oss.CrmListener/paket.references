@@ -1,0 +1,8 @@
+GreenPipes
+MassTransit
+MassTransit.NLog
+MassTransit.RabbitMQ
+NewId
+Newtonsoft.Json
+NLog
+RabbitMQ.Client
