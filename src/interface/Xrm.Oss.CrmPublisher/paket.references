@@ -6,3 +6,5 @@ NewId
 Newtonsoft.Json
 NLog
 RabbitMQ.Client
+TopShelf.Nlog
+MassTransit.CastleWindsor

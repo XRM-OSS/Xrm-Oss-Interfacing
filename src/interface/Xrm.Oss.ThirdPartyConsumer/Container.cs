@@ -11,12 +11,14 @@ using Castle.Windsor;
 using MassTransit;
 using Xrm.Oss.Interfacing.Domain;
 
-namespace Xrm.Oss.ThirdPartyPublisher
+namespace Xrm.Oss.ThirdPartyConsumer
 {
     public class Container : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            container.Register(Types.FromThisAssembly().BasedOn<IConsumer>());
+
             var busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
                 // Send only bus does not need any receive points
@@ -24,6 +26,11 @@ namespace Xrm.Oss.ThirdPartyPublisher
                 {
                     h.Username(ConfigurationManager.AppSettings["RabbitMq.Username"]);
                     h.Password(ConfigurationManager.AppSettings["RabbitMq.Password"]);
+                });
+
+                cfg.ReceiveEndpoint(host, "Xrm-Oss-ThirdPartyConsumer", ec => {
+                    ec.UseMessageScope();
+                    ec.LoadFrom(container);
                 });
             });
 

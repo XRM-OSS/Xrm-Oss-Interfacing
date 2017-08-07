@@ -6,3 +6,10 @@ NewId
 Newtonsoft.Json
 NLog
 RabbitMQ.Client
+TopShelf.Nlog
+MassTransit.CastleWindsor
+Nancy.Owin
+Microsoft.Owin.Hosting
+Microsoft.Owin.Host.HttpListener
+Nancy.Bootstrappers.Windsor
+Microsoft.CrmSdk.XrmTooling.CoreAssembly

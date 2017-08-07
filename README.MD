@@ -15,7 +15,7 @@ Download Erlang first [here](http://www.erlang.org/downloads) and install it.
 
 IMPORTANT: Afterwards, go to your _System_ variables and add an entry `ERLANG_HOME` to the path, where you installed erlang.
 For me (64bit installation), this was `C:\Program Files\erl9.0`.
-Also, copy the `C:\Windows\.erlang.cookie` file to your home directory and replace the cookie file that is stored there.
+Also, copy the `C:\Windows\.erlang.cookie` (it might not exist directly after installation, but it will once the rabbitmq-plugins command below was executed) file to your home directory and replace the cookie file that is stored there.
 
 Proceed with [RabbitMQ](http://www.rabbitmq.com/download.html) afterwards.
 
@@ -35,6 +35,10 @@ Navigate into the project root with your PowerShell and execute `.\build.cmd`.
 Afterwards, all interface components will be built and published (right now together, later on separated) into the "Publish" folder.
 Adjust the application configurations to point to your RabbitMQ instance (will probably already fit if you didn't change anything. The virtual host I created was named "Dev", so either create one as well and give your user access, or change it).
 In the configuration for the CRM consumer, adjust the CRM connection string to point to your CRM organization.
+The CrmListener also needs RabbitMQ configuration, CRM configuration and additionally an URL, which it can use for hosting.
+
+For not having to run the CrmListener as Admin, add an urlacl using PowerShell (Switch port if you configured otherwise):
+```netsh http add urlacl url=http://+:8080/ user=DOMAIN\username```
 
 Start Xrm.Oss.CrmConsumer.exe (always start the consumers first, as they need to register their queues for receiving their messages) and afterwards Xrm.Oss.ThirdPartyPublisher.exe.
 When you copy the test csv into the Publisher's Import folder, it will parse it, send it to RabbitMQ and the consumer will process the messages.

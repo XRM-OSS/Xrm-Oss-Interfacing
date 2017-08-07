@@ -16,6 +16,10 @@ nuget Microsoft.CrmSdk.XrmTooling.CoreAssembly 8.2.0.5 restriction: >= net452
 nuget Microsoft.Diagnostics.Tracing.EventSource.Redist 1.1.28 restriction: >= net452
 nuget Microsoft.IdentityModel 6.1.7600.16394
 nuget Microsoft.IdentityModel.Clients.ActiveDirectory 2.22.302111727 restriction: >= net452
+nuget Microsoft.Owin.Host.HttpListener
+nuget Microsoft.Owin.Hosting
+nuget Nancy.Bootstrappers.Windsor
+nuget Nancy.Owin
 nuget NewId 3.0.1
 nuget Newtonsoft.Json 10.0.3
 nuget Newtonsoft.Json.Bson 1.0.1

@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TopLevel", "TopLevel", "{CC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmConsumer", "src\interface\Xrm.Oss.CrmConsumer\Xrm.Oss.CrmConsumer.csproj", "{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.WorkflowActivities", "src\plugin\Xrm.Oss.WorkflowActivities\Xrm.Oss.Interfacing.WorkflowActivities.csproj", "{BD799A66-E322-47D5-9CDF-E7B138D3FF10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.ThirdPartyConsumer", "src\interface\Xrm.Oss.ThirdPartyConsumer\Xrm.Oss.ThirdPartyConsumer.csproj", "{014EB3FA-EE57-44FD-9243-C6447B0003FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD799A66-E322-47D5-9CDF-E7B138D3FF10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD799A66-E322-47D5-9CDF-E7B138D3FF10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD799A66-E322-47D5-9CDF-E7B138D3FF10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD799A66-E322-47D5-9CDF-E7B138D3FF10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

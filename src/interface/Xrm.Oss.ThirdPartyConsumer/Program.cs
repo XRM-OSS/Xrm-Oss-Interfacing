@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using MassTransit;
 using Topshelf;
 using Xrm.Oss.Interfacing.Domain;
 
-namespace Xrm.Oss.CrmListener
+namespace Xrm.Oss.ThirdPartyConsumer
 {
     public class Program
     {
@@ -26,9 +25,9 @@ namespace Xrm.Oss.CrmListener
 
                     s.ConstructUsing(() =>
                     {
-                        // container should be initialized in here according to Chris Patterson
-                        // https://groups.google.com/d/msg/masstransit-discuss/Pz7ttS7niGQ/A-K7MTK8aiUJ
-                        container = new WindsorContainer().Install(FromAssembly.This());
+                    // container should be initialized in here according to Chris Patterson
+                    // https://groups.google.com/d/msg/masstransit-discuss/Pz7ttS7niGQ/A-K7MTK8aiUJ
+                    container = new WindsorContainer().Install(FromAssembly.This());
 
                         return container.Resolve<IService>();
                     });
@@ -60,9 +59,9 @@ namespace Xrm.Oss.CrmListener
                 x.EnableShutdown();
                 x.RunAsLocalSystem();
                 x.StartAutomatically();
-                x.SetServiceName("Xrm-Oss-CrmListener");
-                x.SetDisplayName("Xrm-Oss-CrmListener");
-                x.SetDescription("Xrm-Oss-CrmListener");
+                x.SetServiceName("Xrm-Oss-ThirdPartyConsumer");
+                x.SetDisplayName("Xrm-Oss-ThirdPartyConsumer");
+                x.SetDescription("Xrm-Oss-ThirdPartyConsumer");
             });
         }
     }

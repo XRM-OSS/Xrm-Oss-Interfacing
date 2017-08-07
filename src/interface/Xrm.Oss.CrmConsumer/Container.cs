@@ -36,7 +36,7 @@ namespace Xrm.Oss.CrmConsumer
 
             container.Register(Component.For<IBus>().Forward<IBusControl>().Instance(busControl));
             container.Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
-            container.Register(Component.For<IService>().ImplementedBy<Service>());
+            container.Register(Component.For<IService>().ImplementedBy<BaseService>());
         }
     }
 }

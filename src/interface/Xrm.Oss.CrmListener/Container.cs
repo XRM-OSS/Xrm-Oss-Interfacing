@@ -11,7 +11,7 @@ using Castle.Windsor;
 using MassTransit;
 using Xrm.Oss.Interfacing.Domain;
 
-namespace Xrm.Oss.ThirdPartyPublisher
+namespace Xrm.Oss.CrmListener
 {
     public class Container : IWindsorInstaller
     {
@@ -29,7 +29,7 @@ namespace Xrm.Oss.ThirdPartyPublisher
 
             container.Register(Component.For<IBus>().Forward<IBusControl>().Instance(busControl));
             container.Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
-            container.Register(Component.For<IService>().ImplementedBy<BaseService>());
+            container.Register(Component.For<IService>().ImplementedBy<Service>());
         }
     }
 }

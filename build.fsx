@@ -14,12 +14,22 @@ let authors = ["Florian Kroenert"]
 
 // Directories
 let buildDir  = @".\build\"
-let interfacebuildDir = buildDir + @"interface\"
-
+let interfaceBuildDir = buildDir + @"interface\"
+let crmConsumerBuildDir = interfaceBuildDir + @"crmConsumer";
+let crmListenerBuildDir = interfaceBuildDir + @"crmListener";
+let crmPublisherBuildDir = interfaceBuildDir + @"crmPublisher";
+let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer";
+let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher";
 let testDir   = @".\test\"
 
 let deployDir = @".\Publish\"
-let interfacedeployDir = deployDir + @"interface\"
+let interfaceDeployDir = deployDir + @"interface\"
+let crmConsumerDeployDir = interfaceDeployDir + @"crmConsumer";
+let crmListenerDeployDir = interfaceDeployDir + @"crmListener";
+let crmPublisherDeployDir = interfaceDeployDir + @"crmPublisher";
+let thirdPartyConsumerDeployDir = interfaceDeployDir + @"thirdPartyConsumer";
+let thirdPartyPublisherDeployDir = interfaceDeployDir + @"thirdPartyPublisher";
+
 let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
 
@@ -56,9 +66,33 @@ Target "AssemblyInfo" (fun _ ->
                                                   AssemblyFileVersion = asmVersion})
 )
 
-Target "BuildInterface" (fun _ ->
-    !! @"src\interface\**\*.csproj"
-        |> MSBuildRelease interfacebuildDir "Build"
+Target "BuildCrmConsumer" (fun _ ->
+    !! @"src\interface\Xrm.Oss.CrmConsumer\*.csproj"
+        |> MSBuildRelease crmConsumerBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildCrmListener" (fun _ ->
+    !! @"src\interface\Xrm.Oss.CrmListener\*.csproj"
+        |> MSBuildRelease crmListenerBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildCrmPublisher" (fun _ ->
+    !! @"src\interface\Xrm.Oss.CrmPublisher\*.csproj"
+        |> MSBuildRelease crmPublisherBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildThirdPartyConsumer" (fun _ ->
+    !! @"src\interface\Xrm.Oss.ThirdPartyConsumer\*.csproj"
+        |> MSBuildRelease thirdPartyConsumerBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildThirdPartyPublisher" (fun _ ->
+    !! @"src\interface\Xrm.Oss.ThirdPartyPublisher\*.csproj"
+        |> MSBuildRelease thirdPartyPublisherBuildDir "Build"
         |> Log "Build-Output: "
 )
 
@@ -69,10 +103,27 @@ Target "BuildTest" (fun _ ->
 )
 
 Target "Publish" (fun _ ->
-    CreateDir interfacedeployDir
+    CreateDir interfaceDeployDir
+    CreateDir crmConsumerDeployDir
+    CreateDir crmListenerDeployDir
+    CreateDir crmPublisherDeployDir
+    CreateDir thirdPartyConsumerDeployDir 
+    CreateDir thirdPartyPublisherDeployDir
+    
+    !! (crmConsumerBuildDir @@ @"*.*")
+        |> CopyTo crmConsumerDeployDir
 
-    !! (interfacebuildDir @@ @"*.*")
-        |> CopyTo interfacedeployDir
+    !! (crmListenerBuildDir @@ @"*.*")
+        |> CopyTo crmListenerDeployDir
+
+    !! (crmPublisherBuildDir @@ @"*.*")
+        |> CopyTo crmPublisherDeployDir
+
+    !! (thirdPartyConsumerBuildDir @@ @"*.*")
+        |> CopyTo thirdPartyConsumerDeployDir
+
+    !! (thirdPartyPublisherBuildDir @@ @"*.*")
+        |> CopyTo thirdPartyPublisherDeployDir
 )
 
 Target "CreateNuget" (fun _ ->
@@ -87,7 +138,11 @@ Target "CreateNuget" (fun _ ->
 "Clean"
   ==> "BuildVersions"
   =?> ("AssemblyInfo", not isLocalBuild )
-  ==> "BuildInterface"
+  ==> "BuildCrmConsumer"
+  ==> "BuildCrmListener"
+  ==> "BuildCrmPublisher"
+  ==> "BuildThirdPartyConsumer"
+  ==> "BuildThirdPartyPublisher"
   ==> "BuildTest"
   ==> "Publish"
   ==> "CreateNuget"
