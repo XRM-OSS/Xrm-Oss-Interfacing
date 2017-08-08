@@ -14,7 +14,7 @@ namespace Xrm.Oss.CrmListener.Modules
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionModule(/*IOrganizationService service,*/ IBusControl busControl)
+        public ActionModule(IOrganizationService service, IBusControl busControl)
         {
             Get["trigger/{action}/{entity}/{id}"] = parameters =>
             {
@@ -24,18 +24,18 @@ namespace Xrm.Oss.CrmListener.Modules
 
                 var guid = Guid.Empty;
 
-                //if(!Guid.TryParse(id, out guid)){
-                //    return HttpStatusCode.BadRequest;
-                //}
+                if(!Guid.TryParse(id, out guid)){
+                    return HttpStatusCode.BadRequest;
+                }
 
-                //Entity record = service.Retrieve(entity, guid, new Microsoft.Xrm.Sdk.Query.ColumnSet(true));
+                Entity record = service.Retrieve(entity, guid, new Microsoft.Xrm.Sdk.Query.ColumnSet(true));
 
                 busControl.Publish(new CrmMessage
                 {
                     Action = action,
                     Entity = entity,
                     Id = guid,
-                    //Attributes = record.Attributes.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value)
+                    Attributes = record.Attributes.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value)
                 });
 
                 return HttpStatusCode.OK;
