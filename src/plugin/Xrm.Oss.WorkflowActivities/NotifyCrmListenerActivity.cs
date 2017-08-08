@@ -17,19 +17,11 @@ namespace Xrm.Oss.WorkflowActivities
         [RequiredArgument]
         public InArgument<string> Action { get; set; }
 
-        [Input("Entity")]
-        [RequiredArgument]
-        public InArgument<string> Entity { get; set; }
-
-        [Input("Id")]
-        [RequiredArgument]
-        public InArgument<Guid> Id { get; set; }
-
         [Input("EndpointUrl")]
         [RequiredArgument]
         public InArgument<string> EndpointUrl { get; set; }
 
-        protected override async void Execute(CodeActivityContext executionContext)
+        protected override void Execute(CodeActivityContext executionContext)
         {
             //Create the tracing service
             var tracingService = executionContext.GetExtension<ITracingService>();
@@ -37,15 +29,15 @@ namespace Xrm.Oss.WorkflowActivities
             var context = executionContext.GetExtension<IWorkflowContext>();
 
             var action = Action.Get(executionContext);
-            var entity = Entity.Get(executionContext);
-            var id = Id.Get(executionContext);
             var endpointUrl = EndpointUrl.Get(executionContext);
+            var entity = context.PrimaryEntityName;
+            var id = context.PrimaryEntityId;
 
             using (var httpClient = new HttpClient())
             {
                 var url = $"{endpointUrl}/trigger/{action}/{entity}/{id}";
 
-                using (var result = await httpClient.GetAsync(url))
+                using (var result = httpClient.GetAsync(url).Result)
                 {
                     if(result.StatusCode != HttpStatusCode.OK)
                     {
