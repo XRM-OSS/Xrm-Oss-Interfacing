@@ -44,7 +44,7 @@ For sending messages triggered by CRM actions, register the WorkflowActivity in 
 The CRM listener is a small web service that is reachable from your CRM. It sends the events to the listener, which chooses the appropriate Publisher for publishing the message to RabbitMQ. 
 For this, you have to place your publishers, which implement ICrmPublisher, into the Publishers directory of the CrmListener.
 This uses MEF - the "Managed Extensibility Framework" for loading and hotswapping your assemblies dynamically, even without downtime.
-The Xrm.Oss.CrmPublisher project is a sample for this and can be used for sending various messages to the bus.
+The Xrm.Oss.CrmPublisher project is a sample for this and can be used for sending update and create messages for contact and account to the bus.
 The CrmListener needs RabbitMQ configuration, CRM configuration and additionally an URL, which it can use for hosting.
 
 For not having to run the CrmListener as Admin, add an urlacl using PowerShell (Switch port if you configured otherwise):
