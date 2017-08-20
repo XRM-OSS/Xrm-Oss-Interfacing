@@ -34,7 +34,7 @@ namespace Xrm.Oss.CrmListener
                 }
             };
 
-            container = new CompositionContainer(catalog);
+            container = new CompositionContainer(catalog, true);
             container.ComposeExportedValue(container);
 
             _logger.Info($"Registered {container.GetExportedValues<ICrmPublisher>().Count()} publishers.");
