@@ -15,7 +15,7 @@ namespace Xrm.Oss.CrmListener.Modules
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionModule(IPublisherControlWrapper publisherRegistration, /*IOrganizationService service,*/ IBusControl busControl)
+        public ActionModule(IPublisherControlWrapper publisherRegistration, IOrganizationService service, IBusControl busControl)
         {
             Get["trigger/{action}/{entity}/{id}"] = parameters =>
             {
@@ -35,7 +35,7 @@ namespace Xrm.Oss.CrmListener.Modules
                     RecordId = guid
                 };
 
-                publisherRegistration.RouteMessage(message, null, busControl);
+                publisherRegistration.RouteMessage(message, service, busControl);
 
                 return HttpStatusCode.OK;
             };
