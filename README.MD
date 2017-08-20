@@ -41,7 +41,10 @@ When you copy the test csv into the Publisher's Import folder, it will parse it,
 You can also install the consumers and publishers as services with topshelf, this is what you'll want to do in your production environment. For this you can just copy them to your Program Files folder or anywhere where you like, and execute them in an admin console while appending "install" to the command line call. This will add a windows service that you can start, stop and so on.
 
 For sending messages triggered by CRM actions, register the WorkflowActivity in this project and use it inside an asynchronous workflow, that triggers on the actions that you'd like to cover. You'll have to configure the name of the event and the EndPoint URL of the CRM listener. The workflow activity can be registered in isolation (sandbox), but then you'll not be able to configure an IP address as EndPoint URL, in sandbox it will have to be something that DNS can resolve.
-The CRM listener is a small web service that is reachable from your CRM. It sends the events to the listener, which chooses the appropriate Publisher for publishing the message to RabbitMQ. Right now the CRM listener sends the messages to RabbitMQ itself, but this is subject to change and later on you'll be able to copy own publishers into its directory, that will be loaded and used for processing.
+The CRM listener is a small web service that is reachable from your CRM. It sends the events to the listener, which chooses the appropriate Publisher for publishing the message to RabbitMQ. 
+For this, you have to place your publishers, which implement ICrmPublisher, into the Publishers directory of the CrmListener.
+This uses MEF - the "Managed Extensibility Framework" for loading and hotswapping your assemblies dynamically, even without downtime.
+The Xrm.Oss.CrmPublisher project is a sample for this and can be used for sending various messages to the bus.
 The CrmListener needs RabbitMQ configuration, CRM configuration and additionally an URL, which it can use for hosting.
 
 For not having to run the CrmListener as Admin, add an urlacl using PowerShell (Switch port if you configured otherwise):
