@@ -29,7 +29,9 @@ namespace Xrm.Oss.CrmPublisher
             return new List<IScenario>
             {
                 new Scenario("update", "account"),
-                new Scenario("create", "account")
+                new Scenario("create", "account"),
+                new Scenario("update", "contact"),
+                new Scenario("create", "contact")
             };
         }
     }
