@@ -32,14 +32,19 @@ You should now head to Admin > Virtual Hosts. There you should use "Add virtual 
 
 ### Running it
 Navigate into the project root with your PowerShell and execute `.\build.cmd`.
-Afterwards, all interface components will be built and published (right now together, later on separated) into the "Publish" folder.
+Afterwards, all interface components will be built and published into the "Publish" folder.
 Adjust the application configurations to point to your RabbitMQ instance (will probably already fit if you didn't change anything. The virtual host I created was named "Dev", so either create one as well and give your user access, or change it).
 In the configuration for the CRM consumer, adjust the CRM connection string to point to your CRM organization.
-The CrmListener also needs RabbitMQ configuration, CRM configuration and additionally an URL, which it can use for hosting.
+
+Start Xrm.Oss.CrmConsumer.exe (always start the consumers first, as they need to register their queues for receiving their messages) and afterwards Xrm.Oss.ThirdPartyPublisher.exe.
+When you copy the test csv into the Publisher's Import folder, it will parse it, send it to RabbitMQ and the consumer will send the data to CRM (currently only create).
+You can also install the consumers and publishers as services with topshelf, this is what you'll want to do in your production environment. For this you can just copy them to your Program Files folder or anywhere where you like, and execute them in an admin console while appending "install" to the command line call. This will add a windows service that you can start, stop and so on.
+
+For sending messages triggered by CRM actions, register the WorkflowActivity in this project and use it inside an asynchronous workflow, that triggers on the actions that you'd like to cover. You'll have to configure the name of the event and the EndPoint URL of the CRM listener. The workflow activity can be registered in isolation (sandbox), but then you'll not be able to configure an IP address as EndPoint URL, in sandbox it will have to be something that DNS can resolve.
+The CRM listener is a small web service that is reachable from your CRM. It sends the events to the listener, which chooses the appropriate Publisher for publishing the message to RabbitMQ. Right now the CRM listener sends the messages to RabbitMQ itself, but this is subject to change and later on you'll be able to copy own publishers into its directory, that will be loaded and used for processing.
+The CrmListener needs RabbitMQ configuration, CRM configuration and additionally an URL, which it can use for hosting.
 
 For not having to run the CrmListener as Admin, add an urlacl using PowerShell (Switch port if you configured otherwise):
 ```netsh http add urlacl url=http://+:8080/ user=DOMAIN\username```
 
-Start Xrm.Oss.CrmConsumer.exe (always start the consumers first, as they need to register their queues for receiving their messages) and afterwards Xrm.Oss.ThirdPartyPublisher.exe.
-When you copy the test csv into the Publisher's Import folder, it will parse it, send it to RabbitMQ and the consumer will process the messages.
-You can also install the consumers and publishers as services with topshelf, this is what you'll want to do in your production environment.
+Once you have the workflow, CRM listener and ThirdPartyConsumer in place, messages from CRM will be sent to RabbitMQ and processed by the ThirdPartyConsumer.
