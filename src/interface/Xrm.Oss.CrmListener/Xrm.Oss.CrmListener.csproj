@@ -33,8 +33,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.Composition.registration" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Reflection.Context" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,10 +50,13 @@
     <Compile Include="Container.cs" />
     <Compile Include="CrmConnection.cs" />
     <Compile Include="CrmMessage.cs" />
+    <Compile Include="IPublisherControlWrapper.cs" />
     <Compile Include="Modules\ActionModule.cs" />
     <Compile Include="Modules\BaseModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublisherControl.cs" />
+    <Compile Include="PublisherControlWrapper.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="StartUp.cs" />
   </ItemGroup>

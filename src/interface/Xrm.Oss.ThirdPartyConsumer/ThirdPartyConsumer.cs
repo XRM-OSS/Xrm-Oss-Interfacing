@@ -19,7 +19,7 @@ namespace Xrm.Oss.ThirdPartyConsumer
         {
             var message = context.Message;
 
-            var text = $@"Received message for action {message.Action} on entity {message.Entity} with id {message.Id}.
+            var text = $@"Received message for action {message.Scenario.Event} on entity {message.Scenario.Entity} with id {message.RecordId}.
 Payload: {string.Join(",", message.Attributes?.Select(pair => $"{pair.Key}: {pair.Value}") ?? new[] { "" })}";
 
             _logger.Info(text);

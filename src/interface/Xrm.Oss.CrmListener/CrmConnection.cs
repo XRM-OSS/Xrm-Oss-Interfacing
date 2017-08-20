@@ -20,6 +20,11 @@ namespace Xrm.Oss.CrmListener
             var connectionString = ConfigurationManager.ConnectionStrings["CRM"].ConnectionString;
             var conn = new CrmServiceClient(connectionString);
 
+            if (!conn.IsReady)
+            {
+                throw new Exception($"Error establishing CRM connection, last error: {conn.LastCrmException.Message}.", conn.LastCrmException);
+            }
+
             return conn.OrganizationWebProxyClient != null
                 ? (IOrganizationService)conn.OrganizationWebProxyClient
                 : (IOrganizationService)conn.OrganizationServiceProxy;

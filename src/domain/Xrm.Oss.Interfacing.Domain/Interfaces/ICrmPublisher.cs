@@ -11,6 +11,6 @@ namespace Xrm.Oss.Interfacing.Domain
 	public interface ICrmPublisher
 	{
 		void ProcessMessage(IMessage message, IOrganizationService service, IBusControl busControl);
-		bool CanProcess(string eventName, string entity);
+        List<IScenario> RetrieveSupportedScenarios();
 	}
 }

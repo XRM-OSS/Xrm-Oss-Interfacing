@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xrm.Oss.Interfacing.Domain;
 
-namespace Xrm.Oss.CrmListener
+namespace Xrm.Oss.CrmPublisher
 {
     public class CrmMessage : ICrmMessage
     {

@@ -7,6 +7,7 @@ using MassTransit;
 using Microsoft.Xrm.Sdk;
 using Nancy;
 using NLog;
+using Xrm.Oss.Interfacing.Domain.Implementations;
 
 namespace Xrm.Oss.CrmListener.Modules
 {
@@ -14,7 +15,7 @@ namespace Xrm.Oss.CrmListener.Modules
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionModule(IOrganizationService service, IBusControl busControl)
+        public ActionModule(IPublisherControlWrapper publisherRegistration, /*IOrganizationService service,*/ IBusControl busControl)
         {
             Get["trigger/{action}/{entity}/{id}"] = parameters =>
             {
@@ -28,15 +29,13 @@ namespace Xrm.Oss.CrmListener.Modules
                     return HttpStatusCode.BadRequest;
                 }
 
-                Entity record = service.Retrieve(entity, guid, new Microsoft.Xrm.Sdk.Query.ColumnSet(true));
-
-                busControl.Publish(new CrmMessage
+                var message = new CrmMessage
                 {
-                    Action = action,
-                    Entity = entity,
-                    Id = guid,
-                    Attributes = record.Attributes.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value)
-                });
+                    Scenario = new Scenario(action, entity),
+                    RecordId = guid
+                };
+
+                publisherRegistration.RouteMessage(message, null, busControl);
 
                 return HttpStatusCode.OK;
             };

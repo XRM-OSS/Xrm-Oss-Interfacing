@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace Xrm.Oss.Interfacing.Domain
 {
-    public interface IMessage
+    public interface IScenario : IEquatable<IScenario>
     {
-		string Event { get; set; }
+        string Event { get; set; }
         string Entity { get; set; }
-		Guid? RecordId { get; set; }
-		DateTime TimeStamp { get; set; }
-		string CorrelationId { get; set; }
     }
 }

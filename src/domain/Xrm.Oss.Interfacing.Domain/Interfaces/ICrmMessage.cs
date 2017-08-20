@@ -8,9 +8,6 @@ namespace Xrm.Oss.Interfacing.Domain
 {
     public interface ICrmMessage : IMessage
     {
-        string Action { get; set; }
-        string Entity { get; set; }
-        Guid? Id { get; set; }
         Dictionary<string, object> Attributes { get; set; }
     }
 }
