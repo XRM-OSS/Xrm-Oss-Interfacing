@@ -4,14 +4,12 @@ using System.Configuration;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CsvHelper;
 using MassTransit;
 using NLog;
-using Topshelf;
-using Xrm.Oss.Interfacing.Domain;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.ThirdPartyPublisher
 {
@@ -44,34 +42,21 @@ namespace Xrm.Oss.ThirdPartyPublisher
                 return false;
             }
 
-            var logicalName = iterable.FirstOrDefault(pair => "logicalName".Equals(pair.Key, StringComparison.InvariantCultureIgnoreCase)).Value?.ToString();
-            var ev = iterable.FirstOrDefault(pair => "event".Equals(pair.Key, StringComparison.InvariantCultureIgnoreCase)).Value?.ToString();
+            var properties = iterable.ToList();
 
-            if (string.IsNullOrEmpty(ev))
+            var message = new DemoThirdPartyContactCreated
             {
-                _logger.Error("Record had no event, skipping.");
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(logicalName))
-            {
-                _logger.Error("Record had no logical name, skipping.");
-                return false;
-            }
-
-            var message = new CrudMessage
-            {
-                Attributes = iterable.Where(pair => !new[] { "logicalName", "event" }.Contains(pair.Key)).ToDictionary(pair => pair.Key, pair => pair.Value),
-                Entity = logicalName,
-                TimeStamp = DateTime.UtcNow,
-                Event = ev
+                LastName = properties.SingleOrDefault(prop => prop.Key == "lastName").Value?.ToString(),
+                FirstName = properties.SingleOrDefault(prop => prop.Key == "firstName").Value?.ToString(),
+                EMailAddress1 = properties.SingleOrDefault(prop => prop.Key == "eMailAddress1").Value?.ToString(),
+                Telephone1 = properties.SingleOrDefault(prop => prop.Key == "telephon1").Value?.ToString()
             };
 
             await _serviceBus.Publish(message);
             return true;
         }
 
-        private async void ProcessFile(object sender, FileSystemEventArgs e)
+        private void ProcessFile(object sender, FileSystemEventArgs e)
         {
             _logger.Info($"Processing file {e.FullPath}");
 

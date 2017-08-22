@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Tooling.Connector;
-using Nancy.Bootstrappers.Windsor;
 
-namespace Xrm.Oss.CrmListener
+namespace Xrm.Oss.CrmPublisher
 {
     public class CrmConnection : IWindsorInstaller
     {
@@ -34,7 +29,8 @@ namespace Xrm.Oss.CrmListener
         {
             container.Register(Component.For<IOrganizationService>()
                 .UsingFactoryMethod(Connect)
-                    .LifestyleScoped<NancyPerWebRequestScopeAccessor>());
+                .LifeStyle
+                .PerThread);
         }
     }
 }

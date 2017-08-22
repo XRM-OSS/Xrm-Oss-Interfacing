@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using MassTransit;
-using Xrm.Oss.Interfacing.Domain;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.ThirdPartyPublisher
 {

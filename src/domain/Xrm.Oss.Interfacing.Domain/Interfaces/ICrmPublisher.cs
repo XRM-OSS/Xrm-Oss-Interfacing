@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
 
-namespace Xrm.Oss.Interfacing.Domain
+namespace Xrm.Oss.Interfacing.Domain.Interfaces
 {
 	public interface ICrmPublisher
 	{
-		void ProcessMessage(IMessage message, IOrganizationService service, IBusControl busControl);
+		void ProcessMessage(ICrmEvent message, IOrganizationService service, IBusControl busControl);
         List<IScenario> RetrieveSupportedScenarios();
 	}
 }

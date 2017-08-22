@@ -15,9 +15,9 @@ namespace Xrm.Oss.CrmListener.Modules
     {
         private Logger _logger = LogManager.GetCurrentClassLogger();
 
-        public ActionModule(IPublisherControlWrapper publisherRegistration, IOrganizationService service, IBusControl busControl)
+        public ActionModule(IBusControl busControl)
         {
-            Get["trigger/{action}/{entity}/{id}"] = parameters =>
+            Get["trigger/{action}/{entity}/{id}", true] = async (parameters, ct) =>
             {
                 var action = parameters.action?.Value;
                 var entity = parameters.entity?.Value;
@@ -25,17 +25,19 @@ namespace Xrm.Oss.CrmListener.Modules
 
                 var guid = Guid.Empty;
 
-                if(!Guid.TryParse(id, out guid)){
+                if (!Guid.TryParse(id, out guid))
+                {
                     return HttpStatusCode.BadRequest;
                 }
 
-                var message = new CrmMessage
+                var message = new CrmEvent
                 {
                     Scenario = new Scenario(action, entity),
+                    TimeStamp = DateTime.UtcNow,
                     RecordId = guid
                 };
 
-                publisherRegistration.RouteMessage(message, service, busControl);
+                await busControl.Publish(message).ConfigureAwait(false);
 
                 return HttpStatusCode.OK;
             };

@@ -1,20 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using MassTransit;
-using Xrm.Oss.Interfacing.Domain;
+using Xrm.Oss.Interfacing.Domain.Implementations;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.CrmConsumer
 {
     public class Container : IWindsorInstaller
     {
+        private void InitializePublishers()
+        {
+            var consumerPath = Path.Combine(Assembly.GetExecutingAssembly().Location, "Consumers");
+            Directory.CreateDirectory(consumerPath);
+
+            var catalog = new AggregateCatalog
+            {
+                Catalogs =
+                {
+                    new DirectoryCatalog(consumerPath)
+                }
+            };
+
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
+        }
+
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Types.FromThisAssembly().BasedOn<IConsumer>());

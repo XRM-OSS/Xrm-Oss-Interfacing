@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using MassTransit;
-using Xrm.Oss.Interfacing.Domain;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.CrmListener
 {
@@ -31,7 +26,6 @@ namespace Xrm.Oss.CrmListener
             container.Register(Component.For<IBus>().Forward<IBusControl>().Instance(busControl));
             container.Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
             container.Register(Component.For<IService>().ImplementedBy<Service>());
-            container.Register(Component.For<IPublisherControlWrapper>().ImplementedBy<PublisherControlWrapper>().LifeStyle.Singleton);
         }
     }
 }

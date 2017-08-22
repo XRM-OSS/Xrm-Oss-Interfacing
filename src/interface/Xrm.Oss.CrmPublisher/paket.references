@@ -9,3 +9,4 @@ RabbitMQ.Client
 TopShelf.Nlog
 MassTransit.CastleWindsor
 Microsoft.CrmSdk.CoreAssemblies
+Microsoft.CrmSdk.XrmTooling.CoreAssembly

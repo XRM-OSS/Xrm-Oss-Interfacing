@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Activities" />
     <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -60,7 +61,6 @@
   <ItemGroup>
     <Compile Include="Container.cs" />
     <Compile Include="CrmConnection.cs" />
-    <Compile Include="CrudMessageConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

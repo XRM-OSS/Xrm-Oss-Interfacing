@@ -1,38 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
-using Xrm.Oss.Interfacing.Domain;
-using Xrm.Oss.Interfacing.Domain.Implementations;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.CrmPublisher
 {
-    public class CrmPublisher : MarshalByRefObject, ICrmPublisher
+    public class CrmPublisher : IConsumer<ICrmEvent>
     {
-        public void ProcessMessage(IMessage message, IOrganizationService service, IBusControl busControl)
-        {
-            var record = service.Retrieve(message.Scenario.Entity, message.RecordId.Value, new Microsoft.Xrm.Sdk.Query.ColumnSet(true));
+        private IBusControl _busControl;
+        private IOrganizationService _service;
 
-            busControl.Publish(new CrmMessage
+        [ImportMany(typeof(ICrmPublisher))]
+        private IEnumerable<ICrmPublisher> _publishers;
+        private Dictionary<IScenario, List<ICrmPublisher>> _registrations;
+
+        private void ComposeRegistrations()
+        {
+            foreach (var publisher in _publishers)
             {
-                Scenario = message.Scenario,
-                RecordId = message.RecordId,
-                Attributes = record.Attributes.Where(pair => pair.Value != null).ToDictionary(pair => pair.Key, pair => pair.Value)
-            });
+                var supportedScenarios = publisher.RetrieveSupportedScenarios();
+
+                foreach (var scenario in supportedScenarios)
+                {
+                    if (_registrations.ContainsKey(scenario))
+                    {
+                        _registrations[scenario].Add(publisher);
+                    }
+                    else
+                    {
+                        _registrations[scenario] = new List<ICrmPublisher> { publisher };
+                    }
+                }
+            }
         }
 
-        public List<IScenario> RetrieveSupportedScenarios()
+        private void InitializePublishers()
         {
-            return new List<IScenario>
+            var publisherPath = Path.Combine(Assembly.GetExecutingAssembly().Location, "Publishers");
+            Directory.CreateDirectory(publisherPath);
+
+            var catalog = new AggregateCatalog
             {
-                new Scenario("update", "account"),
-                new Scenario("create", "account"),
-                new Scenario("update", "contact"),
-                new Scenario("create", "contact")
+                Catalogs =
+                {
+                    new DirectoryCatalog(publisherPath)
+                }
             };
+
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
+        }
+
+        public CrmPublisher(IBusControl busControl, IOrganizationService service)
+        {
+            _busControl = busControl;
+            _service = service;
+
+            InitializePublishers();
+            ComposeRegistrations();
+        }
+
+        public Task Consume(ConsumeContext<ICrmEvent> context)
+        {
+            var message = context.Message;
+            var scenario = message.Scenario;
+
+            if (!_registrations.ContainsKey(scenario))
+            {
+                throw new InvalidOperationException($"No publisher registered for scenario {scenario}, aborting.");
+            }
+
+            var publishers = _registrations[scenario];
+
+            Parallel.ForEach(publishers, (publisher) =>
+            {
+                publisher.ProcessMessage(message, _service, _busControl);
+            });
+
+            return Task.FromResult(0);
         }
     }
 }

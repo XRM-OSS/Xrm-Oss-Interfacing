@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Owin.Hosting;
 using NLog;
-using Xrm.Oss.Interfacing.Domain;
+using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.CrmListener
 {
@@ -17,10 +12,8 @@ namespace Xrm.Oss.CrmListener
         protected readonly Lazy<IBusControl> _lazyServiceBus;
         protected IBusControl _serviceBus;
         private IDisposable _webApp;
-        private IPublisherControlWrapper _publisherControl;
         private Logger _logger = LogManager.GetCurrentClassLogger();
-        private AppDomain _domain;
-
+        
         public Service(Lazy<IBusControl> lazyServiceBus)
         {
             _lazyServiceBus = lazyServiceBus;

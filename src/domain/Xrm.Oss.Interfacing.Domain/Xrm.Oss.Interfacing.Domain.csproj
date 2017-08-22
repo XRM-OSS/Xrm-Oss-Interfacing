@@ -49,10 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implementations\Scenario.cs" />
-    <Compile Include="Interfaces\ICrmMessage.cs" />
+    <Compile Include="Implementations\CrmConsumer.cs" />
+    <Compile Include="Interfaces\ICrmEvent.cs" />
     <Compile Include="Interfaces\ICrmPublisher.cs" />
+    <Compile Include="Interfaces\IDemoCrmContactUpdated.cs" />
+    <Compile Include="Interfaces\IDemoCrmContactCreated.cs" />
+    <Compile Include="Interfaces\IDemoThirdPartyContactCreated.cs" />
     <Compile Include="Interfaces\IMessage.cs" />
-    <Compile Include="Interfaces\ICrudMessage.cs" />
     <Compile Include="Interfaces\IScenario.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

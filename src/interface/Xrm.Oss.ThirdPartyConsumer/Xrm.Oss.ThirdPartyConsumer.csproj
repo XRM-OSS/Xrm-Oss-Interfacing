@@ -43,10 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContactUpdatedConsumer.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThirdPartyConsumer.cs" />
+    <Compile Include="ContactCreatedConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

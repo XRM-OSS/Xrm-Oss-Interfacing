@@ -8,7 +8,7 @@ using MassTransit;
 using Xrm.Oss.Interfacing.Domain.Implementations;
 using Xrm.Oss.Interfacing.Domain.Interfaces;
 
-namespace Xrm.Oss.ThirdPartyConsumer
+namespace Xrm.Oss.CrmPublisher
 {
     public class Container : IWindsorInstaller
     {
@@ -25,7 +25,7 @@ namespace Xrm.Oss.ThirdPartyConsumer
                     h.Password(ConfigurationManager.AppSettings["RabbitMq.Password"]);
                 });
 
-                cfg.ReceiveEndpoint(host, "Xrm-Oss-ThirdPartyConsumer", ec => {
+                cfg.ReceiveEndpoint(host, "Xrm-Oss-CrmPublisher", ec => {
                     ec.UseMessageScope();
                     ec.LoadFrom(container);
                 });

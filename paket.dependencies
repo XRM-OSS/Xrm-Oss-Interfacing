@@ -18,6 +18,7 @@ nuget Microsoft.IdentityModel 6.1.7600.16394
 nuget Microsoft.IdentityModel.Clients.ActiveDirectory 2.22.302111727 restriction: >= net452
 nuget Microsoft.Owin.Host.HttpListener
 nuget Microsoft.Owin.Hosting
+nuget Nancy
 nuget Nancy.Bootstrappers.Windsor
 nuget Nancy.Owin
 nuget NewId 3.0.1

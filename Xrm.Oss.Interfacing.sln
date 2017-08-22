@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.Workflo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.ThirdPartyConsumer", "src\interface\Xrm.Oss.ThirdPartyConsumer\Xrm.Oss.ThirdPartyConsumer.csproj", "{014EB3FA-EE57-44FD-9243-C6447B0003FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.DemoPublisher", "src\interface\Xrm.Oss.DemoPublisher\Xrm.Oss.DemoPublisher.csproj", "{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.DemoConsumer", "src\interface\Xrm.Oss.DemoConsumer\Xrm.Oss.DemoConsumer.csproj", "{4176327D-62CC-4E80-968D-5490B606BFB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{014EB3FA-EE57-44FD-9243-C6447B0003FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4176327D-62CC-4E80-968D-5490B606BFB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4176327D-62CC-4E80-968D-5490B606BFB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4176327D-62CC-4E80-968D-5490B606BFB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4176327D-62CC-4E80-968D-5490B606BFB7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,13 +1,12 @@
 ﻿using System;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using MassTransit;
 using Topshelf;
 using Xrm.Oss.Interfacing.Domain.Interfaces;
 
-namespace Xrm.Oss.CrmListener
+namespace Xrm.Oss.CrmPublisher
 {
-    public class Program
+    class Program
     {
         static void Main(string[] args)
         {
@@ -56,9 +55,9 @@ namespace Xrm.Oss.CrmListener
                 x.EnableShutdown();
                 x.RunAsLocalSystem();
                 x.StartAutomatically();
-                x.SetServiceName("Xrm-Oss-CrmListener");
-                x.SetDisplayName("Xrm-Oss-CrmListener");
-                x.SetDescription("Xrm-Oss-CrmListener");
+                x.SetServiceName("Xrm-Oss-CrmPublisher");
+                x.SetDisplayName("Xrm-Oss-CrmPublisher");
+                x.SetDescription("Xrm-Oss-CrmPublisher");
             });
         }
     }
