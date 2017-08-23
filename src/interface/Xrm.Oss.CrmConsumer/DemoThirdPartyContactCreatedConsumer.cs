@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
+using NLog;
 using Xrm.Oss.Interfacing.Domain.Implementations;
 using Xrm.Oss.Interfacing.Domain.Interfaces;
 
@@ -10,6 +11,7 @@ namespace Xrm.Oss.CrmConsumer
     public class DemoThirdPartyContactCreatedConsumer : IConsumer<IDemoThirdPartyContactCreated>
     {
         private IOrganizationService _service;
+        private Logger _logger = LogManager.GetCurrentClassLogger();
 
         public DemoThirdPartyContactCreatedConsumer(IOrganizationService service)
         {
@@ -20,6 +22,8 @@ namespace Xrm.Oss.CrmConsumer
         {
             var message = context.Message;
             var attributes = new AttributeCollection();
+
+            _logger.Info($"Processing message {message.CorrelationId}");
 
             var contact = new Entity
             {
@@ -33,7 +37,9 @@ namespace Xrm.Oss.CrmConsumer
                 }
             };
 
+            _logger.Trace($"Creating contact in CRM");
             var guid = _service.Create(contact);
+            _logger.Info($"Successfully processed message {message.CorrelationId}");
 
             return Task.FromResult(0);
         }

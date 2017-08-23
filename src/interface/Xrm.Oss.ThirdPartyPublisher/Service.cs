@@ -46,10 +46,12 @@ namespace Xrm.Oss.ThirdPartyPublisher
 
             var message = new DemoThirdPartyContactCreated
             {
-                LastName = properties.SingleOrDefault(prop => prop.Key == "lastName").Value?.ToString(),
-                FirstName = properties.SingleOrDefault(prop => prop.Key == "firstName").Value?.ToString(),
-                EMailAddress1 = properties.SingleOrDefault(prop => prop.Key == "eMailAddress1").Value?.ToString(),
-                Telephone1 = properties.SingleOrDefault(prop => prop.Key == "telephon1").Value?.ToString()
+                LastName = properties.SingleOrDefault(prop => prop.Key == "LastName").Value?.ToString(),
+                FirstName = properties.SingleOrDefault(prop => prop.Key == "FirstName").Value?.ToString(),
+                EMailAddress1 = properties.SingleOrDefault(prop => prop.Key == "EMailAddress1").Value?.ToString(),
+                Telephone1 = properties.SingleOrDefault(prop => prop.Key == "Telephone1").Value?.ToString(),
+                CorrelationId = Guid.NewGuid().ToString(),
+                TimeStamp = DateTime.UtcNow
             };
 
             await _serviceBus.Publish(message);
