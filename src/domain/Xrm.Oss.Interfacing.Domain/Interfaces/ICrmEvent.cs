@@ -1,10 +1,11 @@
 ﻿using System;
+using Xrm.Oss.Interfacing.Domain.Implementations;
 
 namespace Xrm.Oss.Interfacing.Domain.Interfaces
 {
     public interface ICrmEvent : IMessage
     {
-        IScenario Scenario { get; set; }
+        Scenario Scenario { get; set; }
         Guid? RecordId { get; set; }
     }
 }

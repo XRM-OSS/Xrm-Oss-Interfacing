@@ -23,10 +23,13 @@ namespace Xrm.Oss.CrmListener.Modules
                 var entity = parameters.entity?.Value;
                 var id = parameters.id?.Value;
 
+                _logger.Trace($"Received message for event {action} on entity {entity}, record id: {id}");
+
                 var guid = Guid.Empty;
 
                 if (!Guid.TryParse(id, out guid))
                 {
+                    _logger.Trace("Failed to parse id, returning status code 400");
                     return HttpStatusCode.BadRequest;
                 }
 
@@ -34,10 +37,15 @@ namespace Xrm.Oss.CrmListener.Modules
                 {
                     Scenario = new Scenario(action, entity),
                     TimeStamp = DateTime.UtcNow,
-                    RecordId = guid
+                    RecordId = guid,
+                    CorrelationId = Guid.NewGuid().ToString()
                 };
 
+                _logger.Trace($"Publishing CrmEvent with correlation ID {message.CorrelationId} to bus");
+
                 await busControl.Publish(message).ConfigureAwait(false);
+
+                _logger.Trace($"Successfully published message {message.CorrelationId}, returning statuscode 200");
 
                 return HttpStatusCode.OK;
             };

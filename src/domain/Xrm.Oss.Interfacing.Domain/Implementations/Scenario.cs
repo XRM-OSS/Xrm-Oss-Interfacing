@@ -16,7 +16,7 @@ namespace Xrm.Oss.Interfacing.Domain.Implementations
 
         public override string ToString()
         {
-            return $"{Event}-{Entity}";
+            return $"{Event?.ToLowerInvariant()}-{Entity?.ToLowerInvariant()}";
         }
 
         public override int GetHashCode()

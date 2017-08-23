@@ -21,10 +21,10 @@ namespace Xrm.Oss.ThirdPartyConsumer
             var message = context.Message;
 
             var text = $"Received CRM contact created message, values:{Environment.NewLine}"
-                + $"Contact ID: {message.ContactId}"
-                + $"EMailAddress1: {message.EMailAddress1}"
-                + $"First Name: {message.FirstName}"
-                + $"Last Name: {message.LastName}"
+                + $"Contact ID: {message.ContactId}{Environment.NewLine}"
+                + $"EMailAddress1: {message.EMailAddress1}{Environment.NewLine}"
+                + $"First Name: {message.FirstName}{Environment.NewLine}"
+                + $"Last Name: {message.LastName}{Environment.NewLine}"
                 + $"Telephone1: {message.Telephone1}";
 
             _logger.Info(text);

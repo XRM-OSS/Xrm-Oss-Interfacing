@@ -5,6 +5,7 @@ nuget Castle.Windsor 4.0.0 restriction: >= net452
 nuget CsvHelper 2.16.3.0 restriction: >= net461
 nuget FAKE
 nuget GreenPipes 1.0.10
+nuget LibLog
 nuget MassTransit 3.5.7
 nuget MassTransit.CastleWindsor 3.5.7
 nuget MassTransit.NLog 3.5.7

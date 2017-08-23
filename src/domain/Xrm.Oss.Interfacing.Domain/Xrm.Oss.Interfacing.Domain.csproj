@@ -56,6 +56,7 @@
     <Compile Include="Interfaces\IDemoCrmContactCreated.cs" />
     <Compile Include="Interfaces\IDemoThirdPartyContactCreated.cs" />
     <Compile Include="Interfaces\IMessage.cs" />
+    <Compile Include="Interfaces\IPublisherControl.cs" />
     <Compile Include="Interfaces\IScenario.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
