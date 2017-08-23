@@ -30,6 +30,8 @@ namespace Xrm.Oss.CrmPublisher
         {
             var message = context.Message;
 
+            _logger.Info($"Starting to route message {message.CorrelationId} for scenario {message.Scenario} and record id {message.RecordId}");
+
             _publisherControl.RouteMessage(message, _service, _busControl);
 
             _logger.Info($"Message with correlation ID {message.CorrelationId} was successfully published");

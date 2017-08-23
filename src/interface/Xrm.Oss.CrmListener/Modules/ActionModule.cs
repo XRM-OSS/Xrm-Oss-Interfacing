@@ -29,7 +29,7 @@ namespace Xrm.Oss.CrmListener.Modules
 
                 if (!Guid.TryParse(id, out guid))
                 {
-                    _logger.Trace("Failed to parse id, returning status code 400");
+                    _logger.Error("Failed to parse id, returning status code 400");
                     return HttpStatusCode.BadRequest;
                 }
 
@@ -45,7 +45,7 @@ namespace Xrm.Oss.CrmListener.Modules
 
                 await busControl.Publish(message).ConfigureAwait(false);
 
-                _logger.Trace($"Successfully published message {message.CorrelationId}, returning statuscode 200");
+                _logger.Info($"Successfully published message {message.CorrelationId}, returning statuscode 200");
 
                 return HttpStatusCode.OK;
             };
