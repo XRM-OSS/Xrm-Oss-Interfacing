@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="Container.cs" />
     <Compile Include="CrmConnection.cs" />
+    <Compile Include="DemoThirdPartyContactCreatedConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

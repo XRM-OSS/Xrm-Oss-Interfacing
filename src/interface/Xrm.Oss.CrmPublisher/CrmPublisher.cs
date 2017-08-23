@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
+using NLog;
 using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.CrmPublisher
@@ -15,6 +16,7 @@ namespace Xrm.Oss.CrmPublisher
     {
         private IBusControl _busControl;
         private IOrganizationService _service;
+        private Logger _logger;
 
         [ImportMany(typeof(ICrmPublisher))]
         private IEnumerable<ICrmPublisher> _publishers;
@@ -22,12 +24,18 @@ namespace Xrm.Oss.CrmPublisher
 
         private void ComposeRegistrations()
         {
+            _logger.Info("Registering publishers");
+
             foreach (var publisher in _publishers)
             {
                 var supportedScenarios = publisher.RetrieveSupportedScenarios();
 
+                _logger.Trace($"Registering {publisher.GetType().Name}");
+
                 foreach (var scenario in supportedScenarios)
                 {
+                    _logger.Trace($"Registering for {scenario}");
+
                     if (_registrations.ContainsKey(scenario))
                     {
                         _registrations[scenario].Add(publisher);
@@ -37,11 +45,15 @@ namespace Xrm.Oss.CrmPublisher
                         _registrations[scenario] = new List<ICrmPublisher> { publisher };
                     }
                 }
+
+                _logger.Info("Registrations Done");
             }
         }
 
         private void InitializePublishers()
         {
+            _logger.Info("Initializing Publishers");
+
             var publisherPath = Path.Combine(Assembly.GetExecutingAssembly().Location, "Publishers");
             Directory.CreateDirectory(publisherPath);
 

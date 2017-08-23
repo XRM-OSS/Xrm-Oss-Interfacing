@@ -5,15 +5,18 @@ using Microsoft.Xrm.Sdk;
 using Xrm.Oss.Interfacing.Domain.Implementations;
 using Xrm.Oss.Interfacing.Domain.Interfaces;
 
-namespace Xrm.Oss.DemoConsumer
+namespace Xrm.Oss.CrmConsumer
 {
-    [Export(typeof(CrmConsumer<IDemoThirdPartyContactCreated>))]
-    public class DemoThirdPartyContactCreatedConsumer : CrmConsumer<IDemoThirdPartyContactCreated>
+    public class DemoThirdPartyContactCreatedConsumer : IConsumer<IDemoThirdPartyContactCreated>
     {
-        [ImportingConstructor]
-        public DemoThirdPartyContactCreatedConsumer([Import(typeof(IOrganizationService))] IOrganizationService service) : base(service) { }
+        private IOrganizationService _service;
 
-        public override Task Consume(ConsumeContext<IDemoThirdPartyContactCreated> context)
+        public DemoThirdPartyContactCreatedConsumer(IOrganizationService service)
+        {
+            _service = service;
+        }
+
+        public Task Consume(ConsumeContext<IDemoThirdPartyContactCreated> context)
         {
             var message = context.Message;
             var attributes = new AttributeCollection();
