@@ -18,8 +18,11 @@ let interfaceBuildDir = buildDir + @"interface\"
 let crmConsumerBuildDir = interfaceBuildDir + @"crmConsumer";
 let crmListenerBuildDir = interfaceBuildDir + @"crmListener";
 let crmPublisherBuildDir = interfaceBuildDir + @"crmPublisher";
+let demoCrmPublisherBuildDir = interfaceBuildDir + @"demoCrmPublisher";
+let domainBuildDir = interfaceBuildDir + @"domain";
 let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer";
 let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher";
+let workflowActivityBuildDir = interfaceBuildDir + @"workflowActivity";
 let testDir   = @".\test\"
 
 let deployDir = @".\Publish\"
@@ -27,8 +30,11 @@ let interfaceDeployDir = deployDir + @"interface\"
 let crmConsumerDeployDir = interfaceDeployDir + @"crmConsumer";
 let crmListenerDeployDir = interfaceDeployDir + @"crmListener";
 let crmPublisherDeployDir = interfaceDeployDir + @"crmPublisher";
+let demoCrmPublisherDeployDir = interfaceDeployDir + @"demoCrmPublisher";
+let domainDeployDir = interfaceDeployDir + @"domain";
 let thirdPartyConsumerDeployDir = interfaceDeployDir + @"thirdPartyConsumer";
 let thirdPartyPublisherDeployDir = interfaceDeployDir + @"thirdPartyPublisher";
+let workflowActivityDeployDir = interfaceDeployDir + @"workflowActivity";
 
 let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
@@ -84,6 +90,24 @@ Target "BuildCrmPublisher" (fun _ ->
         |> Log "Build-Output: "
 )
 
+Target "BuildDemoCrmPublisher" (fun _ ->
+    !! @"src\interface\Xrm.Oss.DemoPublisher\*.csproj"
+        |> MSBuildRelease demoCrmPublisherBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildDomain" (fun _ ->
+    !! @"src\domain\Xrm.Oss.Interfacing.Domain\*.csproj"
+        |> MSBuildRelease domainBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildWorkflowActivity" (fun _ ->
+    !! @"src\plugin\Xrm.Oss.WorkflowActivities\*.csproj"
+        |> MSBuildRelease workflowActivityBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
 Target "BuildThirdPartyConsumer" (fun _ ->
     !! @"src\interface\Xrm.Oss.ThirdPartyConsumer\*.csproj"
         |> MSBuildRelease thirdPartyConsumerBuildDir "Build"
@@ -109,6 +133,9 @@ Target "Publish" (fun _ ->
     CreateDir crmPublisherDeployDir
     CreateDir thirdPartyConsumerDeployDir 
     CreateDir thirdPartyPublisherDeployDir
+    CreateDir demoCrmPublisherDeployDir
+    CreateDir domainDeployDir
+    CreateDir workflowActivityDeployDir
     
     !! (crmConsumerBuildDir @@ @"*.*")
         |> CopyTo crmConsumerDeployDir
@@ -124,6 +151,15 @@ Target "Publish" (fun _ ->
 
     !! (thirdPartyPublisherBuildDir @@ @"*.*")
         |> CopyTo thirdPartyPublisherDeployDir
+
+    !! (demoCrmPublisherBuildDir @@ @"*.*")
+        |> CopyTo demoCrmPublisherDeployDir
+
+    !! (domainBuildDir @@ @"*.*")
+        |> CopyTo domainDeployDir
+
+    !! (workflowActivityBuildDir @@ @"*.*")
+        |> CopyTo workflowActivityDeployDir
 )
 
 Target "CreateNuget" (fun _ ->
@@ -138,11 +174,14 @@ Target "CreateNuget" (fun _ ->
 "Clean"
   ==> "BuildVersions"
   =?> ("AssemblyInfo", not isLocalBuild )
+  ==> "BuildDomain"
   ==> "BuildCrmConsumer"
   ==> "BuildCrmListener"
   ==> "BuildCrmPublisher"
   ==> "BuildThirdPartyConsumer"
   ==> "BuildThirdPartyPublisher"
+  ==> "BuildDemoCrmPublisher"
+  ==> "BuildWorkflowActivity"
   ==> "BuildTest"
   ==> "Publish"
   ==> "CreateNuget"

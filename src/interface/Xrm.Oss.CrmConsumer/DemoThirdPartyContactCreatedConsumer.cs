@@ -31,7 +31,7 @@ namespace Xrm.Oss.CrmConsumer
                 Attributes =
                 {
                     { "lastname", message.LastName },
-                    { "fistname", message.FirstName },
+                    { "firstname", message.FirstName },
                     { "telephone1", message.Telephone1 },
                     { "emailaddress1", message.EMailAddress1 }
                 }

@@ -3,7 +3,7 @@ using Xrm.Oss.Interfacing.Domain.Interfaces;
 
 namespace Xrm.Oss.DemoPublisher.Messages
 {
-    public class DemoCrmContactUpdated : IDemoCrmContactCreated
+    public class DemoCrmContactUpdated : IDemoCrmContactUpdated
     {
         public Guid ContactId { get; set; }
         public string FirstName { get; set; }
