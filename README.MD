@@ -1,4 +1,5 @@
-# Xrm-OSS-Interfacing
+# Xrm-OSS-Interfacing [![Build status](https://ci.appveyor.com/api/projects/status/3qeoi45uym9dwabd/branch/master?svg=true)](https://ci.appveyor.com/project/DigitalFlow/xrm-oss-interfacing/branch/master)
+
 
 This is a template for creating interfaces from and to Dynamics CRM/365, using messaging for enabling real time interfaces.
 It uses RabbitMQ and MassTransit for transporting the messages.
