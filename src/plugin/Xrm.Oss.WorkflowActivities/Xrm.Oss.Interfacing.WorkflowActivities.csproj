@@ -33,7 +33,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>key.pfx</AssemblyOriginatorKeyFile>
+    <ManifestCertificateThumbprint>F5EAB5EC3DC338EFC99F2C29D252A19C3316E470</ManifestCertificateThumbprint>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
