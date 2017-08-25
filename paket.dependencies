@@ -29,3 +29,4 @@ nuget NLog 4.4.11
 nuget RabbitMQ.Client 4.1.3 restriction: >= net452
 nuget Topshelf 4.0.3 restriction: >= net452
 nuget Topshelf.NLog 4.0.3 restriction: >= net452
+nuget Wix.Toolset

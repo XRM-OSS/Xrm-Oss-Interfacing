@@ -4,6 +4,7 @@
 
 open Fake
 open Fake.AssemblyInfoFile
+open System
 open System.IO
 open Fake.Paket
 
@@ -47,6 +48,12 @@ let mutable nugetVersion    = ""
 let mutable asmVersion      = ""
 let mutable asmInfoVersion  = ""
 
+let WiXPath = Path.Combine("packages", "WiX.Toolset", "tools", "wix")
+let WixCrmListenerProductUpgradeGuid = new Guid("84293e9b-3c43-4bec-9c7b-88af9a70269f")
+let WixCrmPublisherProductUpgradeGuid = new Guid("e6883ea5-17e1-4471-92dd-1b9106a6e26b")
+let ProductVersion () = asmVersion
+let ProductPublisher = "Xrm-Oss"
+
 // Targets
 Target "Clean" (fun _ ->
 
@@ -54,6 +61,9 @@ Target "Clean" (fun _ ->
 )
 
 Target "BuildVersions" (fun _ ->
+    if isLocalBuild then
+        build <- "0"
+
     asmVersion      <- majorversion + "." + minorversion + "." + build
     asmInfoVersion  <- asmVersion
 
@@ -126,6 +136,142 @@ Target "BuildTest" (fun _ ->
       |> Log "Build Log: "
 )
 
+Target "BuildCrmListenerSetup" (fun _ ->
+    // This defines, which files should be collected when running bulkComponentCreation
+    let fileFilter = fun (file : FileInfo) -> true
+        
+    // Collect Files which should be shipped. Pass directory with your deployment output for deployDir
+    // along with the targeted architecture.
+    let components = bulkComponentCreation fileFilter (DirectoryInfo crmListenerDeployDir) Architecture.X64
+             
+    // Collect component references for usage in features
+    let componentRefs = components |> Seq.map(fun comp -> comp.ToComponentRef())
+
+    let completeFeature = generateFeatureElement (fun f -> 
+                                                    {f with  
+                                                        Id = "Complete"
+                                                        Title = "Complete Feature"
+                                                        Level = 1 
+                                                        Description = "Installs all features"
+                                                        Components = componentRefs
+                                                        Display = Expand 
+                                                    })
+
+    // Generates a predefined WiX template with placeholders which will be replaced in "FillInWiXScript"
+    generateWiXScript "SetupTemplate.wxs"
+
+    let WiXUIMondo = generateUIRef (fun f ->
+                                        {f with
+                                            Id = "WixUI_Minimal"
+                                        })
+
+    let WiXUIError = generateUIRef (fun f ->
+                                        {f with
+                                            Id = "WixUI_ErrorProgressText"
+                                        })
+
+    let MajorUpgrade = generateMajorUpgradeVersion(
+                            fun f ->
+                                {f with 
+                                    Schedule = MajorUpgradeSchedule.AfterInstallExecute
+                                    DowngradeErrorMessage = "A later version is already installed, exiting."
+                                })
+
+    FillInWiXTemplate "" (fun f ->
+                            {f with
+                                // Guid which should be generated on every build
+                                ProductCode = Guid.NewGuid()
+                                ProductName = "Xrm-Oss-CrmListener"
+                                Description = "CRM Listener to publish CRM events to service bus"
+                                ProductLanguage = 1031
+                                ProductVersion = ProductVersion()
+                                ProductPublisher = ProductPublisher
+                                // Set fixed upgrade guid, this should never change for this project!
+                                UpgradeGuid = WixCrmListenerProductUpgradeGuid
+                                MajorUpgrade = [MajorUpgrade]
+                                UIRefs = [WiXUIMondo; WiXUIError]
+                                ProgramFilesFolder = ProgramFiles64
+                                Components = components
+                                BuildNumber = build
+                                Features = [completeFeature]
+                            })
+    
+    let setupFileName = sprintf "%s - %s.msi" "Xrm-Oss-CrmListener" (ProductVersion ())
+
+    // run the WiX tools
+    WiX (fun p -> {p with ToolDirectory = WiXPath}) 
+        (Path.Combine (deployDir, setupFileName))
+        @".\SetupTemplate.wxs"
+)
+
+Target "BuildCrmPublisherSetup" (fun _ ->
+    // This defines, which files should be collected when running bulkComponentCreation
+    let fileFilter = fun (file : FileInfo) -> true
+        
+    // Collect Files which should be shipped. Pass directory with your deployment output for deployDir
+    // along with the targeted architecture.
+    let components = bulkComponentCreation fileFilter (DirectoryInfo crmPublisherDeployDir) Architecture.X64
+             
+    // Collect component references for usage in features
+    let componentRefs = components |> Seq.map(fun comp -> comp.ToComponentRef())
+
+    let completeFeature = generateFeatureElement (fun f -> 
+                                                    {f with  
+                                                        Id = "Complete"
+                                                        Title = "Complete Feature"
+                                                        Level = 1 
+                                                        Description = "Installs all features"
+                                                        Components = componentRefs
+                                                        Display = Expand 
+                                                    })
+
+    // Generates a predefined WiX template with placeholders which will be replaced in "FillInWiXScript"
+    generateWiXScript "SetupTemplate.wxs"
+
+    let WiXUIMondo = generateUIRef (fun f ->
+                                        {f with
+                                            Id = "WixUI_Minimal"
+                                        })
+
+    let WiXUIError = generateUIRef (fun f ->
+                                        {f with
+                                            Id = "WixUI_ErrorProgressText"
+                                        })
+
+    let MajorUpgrade = generateMajorUpgradeVersion(
+                            fun f ->
+                                {f with 
+                                    Schedule = MajorUpgradeSchedule.AfterInstallExecute
+                                    DowngradeErrorMessage = "A later version is already installed, exiting."
+                                })
+
+    FillInWiXTemplate "" (fun f ->
+                            {f with
+                                // Guid which should be generated on every build
+                                ProductCode = Guid.NewGuid()
+                                ProductName = "Xrm-Oss-CrmPublisher"
+                                Description = "CRM Publisher to transform CRM events to messages in the service bus"
+                                ProductLanguage = 1031
+                                ProductVersion = ProductVersion()
+                                ProductPublisher = ProductPublisher
+                                // Set fixed upgrade guid, this should never change for this project!
+                                UpgradeGuid = WixCrmPublisherProductUpgradeGuid
+                                MajorUpgrade = [MajorUpgrade]
+                                UIRefs = [WiXUIMondo; WiXUIError]
+                                ProgramFilesFolder = ProgramFiles64
+                                Components = components
+                                BuildNumber = build
+                                Features = [completeFeature]
+                            })
+        
+    let setupFileName = sprintf "%s - %s.msi" "Xrm-Oss-CrmPublisher" (ProductVersion ())
+
+    // run the WiX tools
+    WiX (fun p -> {p with ToolDirectory = WiXPath}) 
+        (Path.Combine (deployDir, setupFileName))
+        @".\SetupTemplate.wxs"
+)
+
 Target "Publish" (fun _ ->
     CreateDir interfaceDeployDir
     CreateDir crmConsumerDeployDir
@@ -184,7 +330,9 @@ Target "CreateNuget" (fun _ ->
   ==> "BuildWorkflowActivity"
   ==> "BuildTest"
   ==> "Publish"
+  ==> "BuildCrmPublisherSetup"
+  ==> "BuildCrmListenerSetup"
   ==> "CreateNuget"
 
 // start build
-RunTargetOrDefault "Publish"
+RunTargetOrDefault "BuildCrmListenerSetup"
