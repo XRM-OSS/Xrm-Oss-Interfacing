@@ -6,6 +6,7 @@ open Fake
 open Fake.AssemblyInfoFile
 open System
 open System.IO
+open System.Text.RegularExpressions
 open Fake.Paket
 
 //Project config
@@ -77,7 +78,10 @@ Target "BuildVersions" (fun _ ->
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src" (fun f -> 
                                               {f with
-                                                  AssemblyVersion = asmVersion
+                                                  // AssemblyVersion should not change all the time
+                                                  // to avoid binding redirects.
+                                                  // Further read: https://codingforsmarties.wordpress.com/2016/01/21/how-to-version-assemblies-destined-for-nuget/
+                                                  // AssemblyVersion = asmVersion
                                                   AssemblyInformationalVersion = asmInfoVersion
                                                   AssemblyFileVersion = asmVersion})
 )
@@ -136,6 +140,9 @@ Target "BuildTest" (fun _ ->
       |> Log "Build Log: "
 )
 
+let findFileId components pattern = 
+    Regex.Match(String.Join("", Seq.map (fun f -> f.ToString()) components), @"File Id=""([0-9a-fA-F]*)"" Name=""" + pattern + "\"").Groups.[1].Value
+
 Target "BuildCrmListenerSetup" (fun _ ->
     // This defines, which files should be collected when running bulkComponentCreation
     let fileFilter = fun (file : FileInfo) -> true
@@ -158,7 +165,7 @@ Target "BuildCrmListenerSetup" (fun _ ->
                                                     })
 
     // Generates a predefined WiX template with placeholders which will be replaced in "FillInWiXScript"
-    generateWiXScript "SetupTemplate.wxs"
+    generateWiXScript "CrmListenerSetupTemplate.wxs"
 
     let WiXUIMondo = generateUIRef (fun f ->
                                         {f with
@@ -176,6 +183,44 @@ Target "BuildCrmListenerSetup" (fun _ ->
                                     Schedule = MajorUpgradeSchedule.AfterInstallExecute
                                     DowngradeErrorMessage = "A later version is already installed, exiting."
                                 })
+    
+    let executable = findFileId components "\S*.exe"
+
+    let installAction = generateCustomAction(fun f ->
+        {f with
+            Execute = CustomActionExecute.Deferred
+            Impersonate = No
+            Id = "InstallListenerService"
+            FileKey = executable
+            ExeCommand = "install"
+            Return = CustomActionReturn.Check
+        })
+
+    let installActionExecution = generateCustomActionExecution(fun f ->
+        {f with
+            ActionId = installAction.Id
+            Target = "InstallFiles"
+            Verb = ActionExecutionVerb.After
+            Condition = "NOT WIX_UPGRADE_DETECTED AND NOT Installed"
+        })
+
+    let uninstallAction = generateCustomAction(fun f ->
+        {f with
+            Execute = CustomActionExecute.Deferred
+            Impersonate = No
+            Id = "UninstallListenerService"
+            FileKey = executable
+            ExeCommand = "uninstall"
+            Return = CustomActionReturn.Check
+        })
+
+    let uninstallActionExecution = generateCustomActionExecution(fun f ->
+        {f with
+            ActionId = uninstallAction.Id
+            Target = "RemoveFiles"
+            Verb = ActionExecutionVerb.Before
+            Condition = "<![CDATA[(NOT UPGRADINGPRODUCTCODE) AND (REMOVE=\"ALL\")]]>"
+        })
 
     FillInWiXTemplate "" (fun f ->
                             {f with
@@ -191,6 +236,8 @@ Target "BuildCrmListenerSetup" (fun _ ->
                                 MajorUpgrade = [MajorUpgrade]
                                 UIRefs = [WiXUIMondo; WiXUIError]
                                 ProgramFilesFolder = ProgramFiles64
+                                CustomActions = [installAction; uninstallAction]
+                                ActionSequences = [installActionExecution; uninstallActionExecution]
                                 Components = components
                                 BuildNumber = build
                                 Features = [completeFeature]
@@ -201,7 +248,7 @@ Target "BuildCrmListenerSetup" (fun _ ->
     // run the WiX tools
     WiX (fun p -> {p with ToolDirectory = WiXPath}) 
         (Path.Combine (deployDir, setupFileName))
-        @".\SetupTemplate.wxs"
+        @".\CrmListenerSetupTemplate.wxs"
 )
 
 Target "BuildCrmPublisherSetup" (fun _ ->
@@ -226,7 +273,7 @@ Target "BuildCrmPublisherSetup" (fun _ ->
                                                     })
 
     // Generates a predefined WiX template with placeholders which will be replaced in "FillInWiXScript"
-    generateWiXScript "SetupTemplate.wxs"
+    generateWiXScript "CrmPublisherSetupTemplate.wxs"
 
     let WiXUIMondo = generateUIRef (fun f ->
                                         {f with
@@ -245,6 +292,44 @@ Target "BuildCrmPublisherSetup" (fun _ ->
                                     DowngradeErrorMessage = "A later version is already installed, exiting."
                                 })
 
+    let executable = findFileId components "\S*.exe"
+
+    let installAction = generateCustomAction(fun f ->
+        {f with
+            Execute = CustomActionExecute.Deferred
+            Impersonate = No
+            Id = "InstallPublisherService"
+            FileKey = executable
+            ExeCommand = "install"
+            Return = CustomActionReturn.Check
+        })
+
+    let installActionExecution = generateCustomActionExecution(fun f ->
+        {f with
+            ActionId = installAction.Id
+            Target = "InstallFiles"
+            Verb = ActionExecutionVerb.After
+            Condition = "NOT WIX_UPGRADE_DETECTED AND NOT Installed"
+        })
+
+    let uninstallAction = generateCustomAction(fun f ->
+        {f with
+            Execute = CustomActionExecute.Deferred
+            Impersonate = No
+            Id = "UninstallPublisherService"
+            FileKey = executable
+            ExeCommand = "uninstall"
+            Return = CustomActionReturn.Check
+        })
+
+    let uninstallActionExecution = generateCustomActionExecution(fun f ->
+        {f with
+            ActionId = uninstallAction.Id
+            Target = "RemoveFiles"
+            Verb = ActionExecutionVerb.Before
+            Condition = "<![CDATA[(NOT UPGRADINGPRODUCTCODE) AND (REMOVE=\"ALL\")]]>"
+        })
+
     FillInWiXTemplate "" (fun f ->
                             {f with
                                 // Guid which should be generated on every build
@@ -259,6 +344,8 @@ Target "BuildCrmPublisherSetup" (fun _ ->
                                 MajorUpgrade = [MajorUpgrade]
                                 UIRefs = [WiXUIMondo; WiXUIError]
                                 ProgramFilesFolder = ProgramFiles64
+                                CustomActions = [installAction; uninstallAction]
+                                ActionSequences = [installActionExecution; uninstallActionExecution]
                                 Components = components
                                 BuildNumber = build
                                 Features = [completeFeature]
@@ -269,7 +356,7 @@ Target "BuildCrmPublisherSetup" (fun _ ->
     // run the WiX tools
     WiX (fun p -> {p with ToolDirectory = WiXPath}) 
         (Path.Combine (deployDir, setupFileName))
-        @".\SetupTemplate.wxs"
+        @".\CrmPublisherSetupTemplate.wxs"
 )
 
 Target "Publish" (fun _ ->
