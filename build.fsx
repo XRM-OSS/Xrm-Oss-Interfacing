@@ -115,7 +115,7 @@ Target "BuildDomain" (fun _ ->
 )
 
 Target "BuildWorkflowActivity" (fun _ ->
-    !! @"src\plugin\Xrm.Oss.WorkflowActivities\*.csproj"
+    !! @"src\plugin\Xrm.Oss.Interfacing.WorkflowActivities\*.csproj"
         |> MSBuildRelease workflowActivityBuildDir "Build"
         |> Log "Build-Output: "
 )
