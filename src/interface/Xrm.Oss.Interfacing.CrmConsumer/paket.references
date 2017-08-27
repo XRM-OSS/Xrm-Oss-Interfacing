@@ -5,3 +5,4 @@ Microsoft.CrmSdk.XrmTooling.CoreAssembly
 Microsoft.Diagnostics.Tracing.EventSource.Redist
 Newtonsoft.Json.Bson
 Topshelf.NLog
+Xrm.Oss.Interfacing.Domain

@@ -14,3 +14,4 @@ nuget Nancy.Owin
 nuget Newtonsoft.Json.Bson 1.0.1
 nuget Topshelf.NLog 4.0.3 restriction: >= net452
 nuget Wix.Toolset
+nuget Xrm.Oss.Interfacing.Domain

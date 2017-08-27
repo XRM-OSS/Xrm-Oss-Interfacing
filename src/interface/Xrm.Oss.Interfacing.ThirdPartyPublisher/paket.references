@@ -5,3 +5,4 @@ MassTransit.RabbitMQ
 Microsoft.IdentityModel
 Newtonsoft.Json.Bson
 Topshelf.NLog
+Xrm.Oss.Interfacing.Domain

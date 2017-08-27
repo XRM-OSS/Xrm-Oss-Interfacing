@@ -1,3 +1,4 @@
 Microsoft.CrmSdk.CoreAssemblies
 MassTransit
 NLog
+Xrm.Oss.Interfacing.Domain
