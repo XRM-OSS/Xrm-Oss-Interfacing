@@ -1,7 +1,7 @@
 ﻿using System;
 using MassTransit;
 using NLog;
-using Xrm.Oss.Interfacing.Domain.Interfaces;
+using Xrm.Oss.Interfacing.Domain.Contracts;
 
 namespace Xrm.Oss.Interfacing.Domain.Implementations
 {

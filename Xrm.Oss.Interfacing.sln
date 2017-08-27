@@ -6,15 +6,17 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7C6753E1-34C1-42FC-8B7F-E7C77902D1AA}"
 	ProjectSection(SolutionItems) = preProject
 		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+		paket.template = paket.template
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.Domain", "src\domain\Xrm.Oss.Interfacing.Domain\Xrm.Oss.Interfacing.Domain.csproj", "{5EDAD078-7559-4124-891E-20A6A8C420EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmPublisher", "src\interface\Xrm.Oss.CrmPublisher\Xrm.Oss.CrmPublisher.csproj", "{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.CrmPublisher", "src\interface\Xrm.Oss.Interfacing.CrmPublisher\Xrm.Oss.Interfacing.CrmPublisher.csproj", "{FF4891AD-3FFA-4F72-9AF7-84E1E6530BE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmListener", "src\interface\Xrm.Oss.CrmListener\Xrm.Oss.CrmListener.csproj", "{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.CrmListener", "src\interface\Xrm.Oss.Interfacing.CrmListener\Xrm.Oss.Interfacing.CrmListener.csproj", "{EB359ADC-34C0-4BFE-BD05-2B18585A9A57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.ThirdPartyPublisher", "src\interface\Xrm.Oss.ThirdPartyPublisher\Xrm.Oss.ThirdPartyPublisher.csproj", "{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.ThirdPartyPublisher", "src\interface\Xrm.Oss.Interfacing.ThirdPartyPublisher\Xrm.Oss.Interfacing.ThirdPartyPublisher.csproj", "{908E3F8E-9B3C-4C28-80DA-5B080C7EE225}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TopLevel", "TopLevel", "{CC6790BB-E807-4BBF-B704-6702E59E269D}"
 	ProjectSection(SolutionItems) = preProject
@@ -23,13 +25,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TopLevel", "TopLevel", "{CC
 		README.MD = README.MD
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.CrmConsumer", "src\interface\Xrm.Oss.CrmConsumer\Xrm.Oss.CrmConsumer.csproj", "{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.CrmConsumer", "src\interface\Xrm.Oss.Interfacing.CrmConsumer\Xrm.Oss.Interfacing.CrmConsumer.csproj", "{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.WorkflowActivities", "src\plugin\Xrm.Oss.WorkflowActivities\Xrm.Oss.Interfacing.WorkflowActivities.csproj", "{BD799A66-E322-47D5-9CDF-E7B138D3FF10}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.WorkflowActivities", "src\plugin\Xrm.Oss.Interfacing.WorkflowActivities\Xrm.Oss.Interfacing.WorkflowActivities.csproj", "{BD799A66-E322-47D5-9CDF-E7B138D3FF10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.ThirdPartyConsumer", "src\interface\Xrm.Oss.ThirdPartyConsumer\Xrm.Oss.ThirdPartyConsumer.csproj", "{014EB3FA-EE57-44FD-9243-C6447B0003FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.ThirdPartyConsumer", "src\interface\Xrm.Oss.Interfacing.ThirdPartyConsumer\Xrm.Oss.Interfacing.ThirdPartyConsumer.csproj", "{014EB3FA-EE57-44FD-9243-C6447B0003FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.DemoPublisher", "src\interface\Xrm.Oss.DemoPublisher\Xrm.Oss.DemoPublisher.csproj", "{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.DemoPublisher", "src\interface\Xrm.Oss.Interfacing.DemoPublisher\Xrm.Oss.Interfacing.DemoPublisher.csproj", "{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{2BD91E2D-5076-4E59-89A0-EEC8B274338A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,5 +76,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{908E3F8E-9B3C-4C28-80DA-5B080C7EE225} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
+		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
+		{014EB3FA-EE57-44FD-9243-C6447B0003FF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
+		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
 	EndGlobalSection
 EndGlobal

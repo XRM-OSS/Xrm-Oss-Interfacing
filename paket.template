@@ -1,0 +1,20 @@
+type file
+id Xrm.Oss.Interfacing.Domain
+version 1.0
+authors Florian Krönert
+title
+    Xrm-Oss-Interfacing-Domain
+tags
+    Xrm Dynamics CRM 365 ESB Service Bus RabbitMQ MassTransit
+projectUrl
+    https://github.com/DigitalFlow/Xrm-Oss-Interfacing
+licenseUrl
+    https://github.com/DigitalFlow/Xrm-Oss-Interfacing/blob/master/LICENSE
+description
+    Contracts and base implementations for the Xrm-Oss-Interfacing project
+dependencies
+    MassTransit ~> 3.5.7
+    Microsoft.CrmSdk.CoreAssemblies ~> 8.2.0.2
+    NLog ~> 4.4.11
+files
+    Publish\domain\Xrm.Oss.Interfacing.Domain.dll

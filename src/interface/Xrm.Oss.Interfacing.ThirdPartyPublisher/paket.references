@@ -1,0 +1,7 @@
+CsvHelper
+MassTransit.CastleWindsor
+MassTransit.NLog
+MassTransit.RabbitMQ
+Microsoft.IdentityModel
+Newtonsoft.Json.Bson
+Topshelf.NLog

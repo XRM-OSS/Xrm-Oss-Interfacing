@@ -1,0 +1,7 @@
+MassTransit.CastleWindsor
+MassTransit.NLog
+MassTransit.RabbitMQ
+Microsoft.CrmSdk.XrmTooling.CoreAssembly
+Microsoft.Diagnostics.Tracing.EventSource.Redist
+Newtonsoft.Json.Bson
+Topshelf.NLog

@@ -1,0 +1,5 @@
+MassTransit.NLog
+MassTransit.RabbitMQ
+TopShelf.Nlog
+MassTransit.CastleWindsor
+Microsoft.CrmSdk.XrmTooling.CoreAssembly

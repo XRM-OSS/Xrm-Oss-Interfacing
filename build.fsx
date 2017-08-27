@@ -21,7 +21,7 @@ let crmConsumerBuildDir = interfaceBuildDir + @"crmConsumer";
 let crmListenerBuildDir = interfaceBuildDir + @"crmListener";
 let crmPublisherBuildDir = interfaceBuildDir + @"crmPublisher";
 let demoCrmPublisherBuildDir = interfaceBuildDir + @"demoCrmPublisher";
-let domainBuildDir = interfaceBuildDir + @"domain";
+let domainBuildDir = buildDir + @"domain";
 let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer";
 let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher";
 let workflowActivityBuildDir = interfaceBuildDir + @"workflowActivity";
@@ -33,7 +33,7 @@ let crmConsumerDeployDir = interfaceDeployDir + @"crmConsumer";
 let crmListenerDeployDir = interfaceDeployDir + @"crmListener";
 let crmPublisherDeployDir = interfaceDeployDir + @"crmPublisher";
 let demoCrmPublisherDeployDir = interfaceDeployDir + @"demoCrmPublisher";
-let domainDeployDir = interfaceDeployDir + @"domain";
+let domainDeployDir = deployDir + @"domain";
 let thirdPartyConsumerDeployDir = interfaceDeployDir + @"thirdPartyConsumer";
 let thirdPartyPublisherDeployDir = interfaceDeployDir + @"thirdPartyPublisher";
 let workflowActivityDeployDir = interfaceDeployDir + @"workflowActivity";
@@ -42,10 +42,10 @@ let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
 
 // version info
-let mutable majorversion    = "1"
-let mutable minorversion    = "0"
+let mutable major           = "1"
+let mutable minor           = "0"
+let mutable patch           = "0"
 let mutable build           = buildVersion
-let mutable nugetVersion    = ""
 let mutable asmVersion      = ""
 let mutable asmInfoVersion  = ""
 
@@ -65,47 +65,44 @@ Target "BuildVersions" (fun _ ->
     if isLocalBuild then
         build <- "0"
 
-    asmVersion      <- majorversion + "." + minorversion + "." + build
-    asmInfoVersion  <- asmVersion
+    // AssemblyVersion should not change all the time
+    // to avoid binding redirects.
+    // Further read: https://codingforsmarties.wordpress.com/2016/01/21/how-to-version-assemblies-destined-for-nuget/
+    asmVersion  <- major + "." + minor + "." + patch 
+    asmInfoVersion      <- major + "." + minor + "." + patch + "." + build
 
-    let nugetBuildNumber = if not isLocalBuild then build else "0"
-    
-    nugetVersion    <- majorversion + "." + minorversion + "." + nugetBuildNumber
-
-    SetBuildNumber nugetVersion   // Publish version to TeamCity
+    SetBuildNumber asmInfoVersion // Publish version to TeamCity
 )
 
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src" (fun f -> 
                                               {f with
-                                                  // AssemblyVersion should not change all the time
-                                                  // to avoid binding redirects.
-                                                  // Further read: https://codingforsmarties.wordpress.com/2016/01/21/how-to-version-assemblies-destined-for-nuget/
-                                                  // AssemblyVersion = asmVersion
+                                                  AssemblyVersion = asmVersion
                                                   AssemblyInformationalVersion = asmInfoVersion
-                                                  AssemblyFileVersion = asmVersion})
+                                                  AssemblyFileVersion = asmInfoVersion
+                                              })
 )
 
 Target "BuildCrmConsumer" (fun _ ->
-    !! @"src\interface\Xrm.Oss.CrmConsumer\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.CrmConsumer\*.csproj"
         |> MSBuildRelease crmConsumerBuildDir "Build"
         |> Log "Build-Output: "
 )
 
 Target "BuildCrmListener" (fun _ ->
-    !! @"src\interface\Xrm.Oss.CrmListener\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.CrmListener\*.csproj"
         |> MSBuildRelease crmListenerBuildDir "Build"
         |> Log "Build-Output: "
 )
 
 Target "BuildCrmPublisher" (fun _ ->
-    !! @"src\interface\Xrm.Oss.CrmPublisher\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.CrmPublisher\*.csproj"
         |> MSBuildRelease crmPublisherBuildDir "Build"
         |> Log "Build-Output: "
 )
 
 Target "BuildDemoCrmPublisher" (fun _ ->
-    !! @"src\interface\Xrm.Oss.DemoPublisher\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.DemoPublisher\*.csproj"
         |> MSBuildRelease demoCrmPublisherBuildDir "Build"
         |> Log "Build-Output: "
 )
@@ -123,13 +120,13 @@ Target "BuildWorkflowActivity" (fun _ ->
 )
 
 Target "BuildThirdPartyConsumer" (fun _ ->
-    !! @"src\interface\Xrm.Oss.ThirdPartyConsumer\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.ThirdPartyConsumer\*.csproj"
         |> MSBuildRelease thirdPartyConsumerBuildDir "Build"
         |> Log "Build-Output: "
 )
 
 Target "BuildThirdPartyPublisher" (fun _ ->
-    !! @"src\interface\Xrm.Oss.ThirdPartyPublisher\*.csproj"
+    !! @"src\interface\Xrm.Oss.Interfacing.ThirdPartyPublisher\*.csproj"
         |> MSBuildRelease thirdPartyPublisherBuildDir "Build"
         |> Log "Build-Output: "
 )
@@ -397,10 +394,10 @@ Target "Publish" (fun _ ->
 
 Target "CreateNuget" (fun _ ->
     Pack (fun p ->
-            {p with
-                Version = nugetVersion
-                
-            })
+        {p with
+            Version = asmInfoVersion
+            OutputPath = "./Publish"
+        })
 )
 
 // Dependencies
@@ -422,4 +419,4 @@ Target "CreateNuget" (fun _ ->
   ==> "CreateNuget"
 
 // start build
-RunTargetOrDefault "BuildCrmListenerSetup"
+RunTargetOrDefault "CreateNuget"

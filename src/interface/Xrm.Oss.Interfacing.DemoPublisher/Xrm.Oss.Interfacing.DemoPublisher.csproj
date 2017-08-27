@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5EDAD078-7559-4124-891E-20A6A8C420EE}</ProjectGuid>
+    <ProjectGuid>{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Xrm.Oss.Interfacing.Domain</RootNamespace>
-    <AssemblyName>Xrm.Oss.Interfacing.Domain</AssemblyName>
+    <RootNamespace>Xrm.Oss.Interfacing.DemoPublisher</RootNamespace>
+    <AssemblyName>Xrm.Oss.Interfacing.DemoPublisher</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,15 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
-    <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.DirectoryServices.AccountManagement" />
-    <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,21 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementations\Scenario.cs" />
-    <Compile Include="Contracts\ICrmEvent.cs" />
-    <Compile Include="Contracts\ICrmPublisher.cs" />
-    <Compile Include="Contracts\IDemoCrmContactUpdated.cs" />
-    <Compile Include="Contracts\IDemoCrmContactCreated.cs" />
-    <Compile Include="Contracts\IDemoThirdPartyContactCreated.cs" />
-    <Compile Include="Contracts\IMessage.cs" />
-    <Compile Include="Contracts\IPublisherControl.cs" />
-    <Compile Include="Contracts\IScenario.cs" />
-    <Compile Include="Contracts\IService.cs" />
+    <Compile Include="Messages\DemoCrmContactUpdated.cs" />
+    <Compile Include="Messages\DemoCrmContactCreated.cs" />
+    <Compile Include="Publisher\CrmContactUpdatedPublisher.cs" />
+    <Compile Include="Publisher\CrmContactCreatedPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implementations\BaseService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="paket.references" />
+    <ProjectReference Include="..\..\domain\Xrm.Oss.Interfacing.Domain\Xrm.Oss.Interfacing.Domain.csproj">
+      <Project>{5edad078-7559-4124-891e-20a6a8c420ee}</Project>
+      <Name>Xrm.Oss.Interfacing.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
@@ -99,6 +88,30 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v5.0')">
       <ItemGroup>
+        <Reference Include="System.DirectoryServices">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.DirectoryServices.AccountManagement">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.IdentityModel">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Runtime.Serialization">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Security">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.ServiceModel">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.ServiceModel.Web">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Web">
+          <Paket>True</Paket>
+        </Reference>
         <Reference Include="Microsoft.Crm.Sdk.Proxy">
           <HintPath>..\..\..\packages\Microsoft.CrmSdk.CoreAssemblies\lib\net452\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
           <Private>True</Private>
@@ -135,7 +148,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.0.3' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v5.0')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3' Or $(TargetFrameworkVersion) == 'v4.7' Or $(TargetFrameworkVersion) == 'v5.0')">
       <ItemGroup>
         <Reference Include="Microsoft.IdentityModel">
           <HintPath>..\..\..\packages\Microsoft.IdentityModel\lib\net35\Microsoft.IdentityModel.dll</HintPath>

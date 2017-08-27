@@ -18,7 +18,6 @@ NUGET
       System.Runtime.InteropServices.RuntimeInformation (>= 4.3) - restriction: && (< net452) (>= netstandard1.5)
       System.Runtime.Serialization.Formatters (>= 4.3) - restriction: && (< net452) (>= netstandard1.5)
       System.Threading.Timer (>= 4.3) - restriction: && (< net452) (>= netstandard1.5)
-    LibLog (4.2.6)
     MassTransit (3.5.7)
       GreenPipes (>= 1.0.9)
       NewId (>= 3.0)
@@ -820,4 +819,4 @@ NUGET
     Topshelf.NLog (4.0.3) - restriction: >= net452
       NLog (>= 4.3.10)
       Topshelf (>= 4.0.3)
-    WiX.Toolset (3.9.1208)
+    Wix.Toolset (3.9.1208)

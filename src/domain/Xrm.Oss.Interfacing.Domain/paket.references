@@ -1,11 +1,3 @@
-GreenPipes
 MassTransit
-MassTransit.NLog
-MassTransit.RabbitMQ
 Microsoft.CrmSdk.CoreAssemblies
-Microsoft.IdentityModel
-NewId
-Newtonsoft.Json
-RabbitMQ.Client
-LibLog
 NLog
