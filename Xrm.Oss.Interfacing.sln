@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.DemoPub
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{2BD91E2D-5076-4E59-89A0-EEC8B274338A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xrm.Oss.Interfacing.DemoContracts", "src\interface\Xrm.Oss.Interfacing.DemoContracts\Xrm.Oss.Interfacing.DemoContracts.csproj", "{AD4BFA90-1553-48F5-BB76-835F6759FDA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD4BFA90-1553-48F5-BB76-835F6759FDA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD4BFA90-1553-48F5-BB76-835F6759FDA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD4BFA90-1553-48F5-BB76-835F6759FDA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD4BFA90-1553-48F5-BB76-835F6759FDA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,5 +88,6 @@ Global
 		{0D0CCC72-49D7-45A0-9113-AF4DA157F7BF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
 		{014EB3FA-EE57-44FD-9243-C6447B0003FF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
 		{35ADCCED-6C9C-4978-9F90-E0AD5EEAA5CF} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
+		{AD4BFA90-1553-48F5-BB76-835F6759FDA5} = {2BD91E2D-5076-4E59-89A0-EEC8B274338A}
 	EndGlobalSection
 EndGlobal

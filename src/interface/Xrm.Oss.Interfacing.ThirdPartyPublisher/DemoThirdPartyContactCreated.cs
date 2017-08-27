@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using Xrm.Oss.Interfacing.Domain.Contracts;
+using Xrm.Oss.Interfacing.DemoContracts;
 
 namespace Xrm.Oss.Interfacing.ThirdPartyPublisher
 {

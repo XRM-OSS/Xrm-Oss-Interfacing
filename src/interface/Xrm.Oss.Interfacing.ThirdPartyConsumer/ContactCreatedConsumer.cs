@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using MassTransit;
 using NLog;
-using Xrm.Oss.Interfacing.Domain;
-using Xrm.Oss.Interfacing.Domain.Contracts;
+using Xrm.Oss.Interfacing.DemoContracts;
 
 namespace Xrm.Oss.Interfacing.ThirdPartyConsumer
 {

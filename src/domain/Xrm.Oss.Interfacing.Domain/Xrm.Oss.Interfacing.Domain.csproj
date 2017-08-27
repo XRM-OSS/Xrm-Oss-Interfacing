@@ -51,9 +51,6 @@
     <Compile Include="Implementations\Scenario.cs" />
     <Compile Include="Contracts\ICrmEvent.cs" />
     <Compile Include="Contracts\ICrmPublisher.cs" />
-    <Compile Include="Contracts\IDemoCrmContactUpdated.cs" />
-    <Compile Include="Contracts\IDemoCrmContactCreated.cs" />
-    <Compile Include="Contracts\IDemoThirdPartyContactCreated.cs" />
     <Compile Include="Contracts\IMessage.cs" />
     <Compile Include="Contracts\IPublisherControl.cs" />
     <Compile Include="Contracts\IScenario.cs" />

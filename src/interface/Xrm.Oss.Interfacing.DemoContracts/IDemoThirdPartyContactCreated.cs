@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Xrm.Oss.Interfacing.Domain.Contracts;
 
-namespace Xrm.Oss.Interfacing.Domain.Contracts
+namespace Xrm.Oss.Interfacing.DemoContracts
 {
     public interface IDemoThirdPartyContactCreated : IMessage
     {

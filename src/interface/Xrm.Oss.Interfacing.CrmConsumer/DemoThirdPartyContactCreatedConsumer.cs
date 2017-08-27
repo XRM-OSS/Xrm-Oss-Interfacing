@@ -1,10 +1,8 @@
-﻿using System.ComponentModel.Composition;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
 using NLog;
-using Xrm.Oss.Interfacing.Domain.Implementations;
-using Xrm.Oss.Interfacing.Domain.Contracts;
+using Xrm.Oss.Interfacing.DemoContracts;
 
 namespace Xrm.Oss.Interfacing.CrmConsumer
 {

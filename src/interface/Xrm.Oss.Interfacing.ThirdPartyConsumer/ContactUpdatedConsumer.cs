@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MassTransit;
 using NLog;
-using Xrm.Oss.Interfacing.Domain.Contracts;
+using Xrm.Oss.Interfacing.DemoContracts;
 
 namespace Xrm.Oss.Interfacing.ThirdPartyConsumer
 {

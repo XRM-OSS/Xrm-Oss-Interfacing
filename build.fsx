@@ -3,7 +3,6 @@
 #r @"packages\FAKE\tools\FakeLib.dll"
 
 open Fake
-open Fake.AssemblyInfoFile
 open System
 open System.IO
 open System.Text.RegularExpressions
@@ -25,6 +24,7 @@ let domainBuildDir = buildDir + @"domain";
 let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer";
 let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher";
 let workflowActivityBuildDir = interfaceBuildDir + @"workflowActivity";
+let demoContractsBuildDir = interfaceBuildDir + @"demoContracts";
 let testDir   = @".\test\"
 
 let deployDir = @".\Publish\"
@@ -37,6 +37,7 @@ let domainDeployDir = deployDir + @"domain";
 let thirdPartyConsumerDeployDir = interfaceDeployDir + @"thirdPartyConsumer";
 let thirdPartyPublisherDeployDir = interfaceDeployDir + @"thirdPartyPublisher";
 let workflowActivityDeployDir = interfaceDeployDir + @"workflowActivity";
+let demoContractsDeployDir = interfaceDeployDir + @"demoContracts";
 
 let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
@@ -128,6 +129,12 @@ Target "BuildThirdPartyConsumer" (fun _ ->
 Target "BuildThirdPartyPublisher" (fun _ ->
     !! @"src\interface\Xrm.Oss.Interfacing.ThirdPartyPublisher\*.csproj"
         |> MSBuildRelease thirdPartyPublisherBuildDir "Build"
+        |> Log "Build-Output: "
+)
+
+Target "BuildDemoContracts" (fun _ ->
+    !! @"src\interface\Xrm.Oss.Interfacing.DemoContracts\*.csproj"
+        |> MSBuildRelease demoContractsBuildDir "Build"
         |> Log "Build-Output: "
 )
 
@@ -366,6 +373,7 @@ Target "Publish" (fun _ ->
     CreateDir demoCrmPublisherDeployDir
     CreateDir domainDeployDir
     CreateDir workflowActivityDeployDir
+    CreateDir demoContractsDeployDir
     
     !! (crmConsumerBuildDir @@ @"*.*")
         |> CopyTo crmConsumerDeployDir
@@ -390,6 +398,9 @@ Target "Publish" (fun _ ->
 
     !! (workflowActivityBuildDir @@ @"*.*")
         |> CopyTo workflowActivityDeployDir
+    
+    !! (demoContractsBuildDir @@ @"*.*")
+        |> CopyTo demoContractsDeployDir
 )
 
 Target "CreateNuget" (fun _ ->

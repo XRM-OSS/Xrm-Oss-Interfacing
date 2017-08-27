@@ -78,6 +78,10 @@
       <Project>{5edad078-7559-4124-891e-20a6a8c420ee}</Project>
       <Name>Xrm.Oss.Interfacing.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Xrm.Oss.Interfacing.DemoContracts\Xrm.Oss.Interfacing.DemoContracts.csproj">
+      <Project>{ad4bfa90-1553-48f5-bb76-835f6759fda5}</Project>
+      <Name>Xrm.Oss.Interfacing.DemoContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
