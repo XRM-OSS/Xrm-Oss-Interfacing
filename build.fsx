@@ -16,15 +16,16 @@ let authors = ["Florian Kroenert"]
 // Directories
 let buildDir  = @".\build\"
 let interfaceBuildDir = buildDir + @"interface\"
-let crmConsumerBuildDir = interfaceBuildDir + @"crmConsumer";
-let crmListenerBuildDir = interfaceBuildDir + @"crmListener";
-let crmPublisherBuildDir = interfaceBuildDir + @"crmPublisher";
-let demoCrmPublisherBuildDir = interfaceBuildDir + @"demoCrmPublisher";
-let domainBuildDir = buildDir + @"domain";
-let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer";
-let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher";
-let workflowActivityBuildDir = interfaceBuildDir + @"workflowActivity";
-let demoContractsBuildDir = interfaceBuildDir + @"demoContracts";
+let crmConsumerBuildDir = interfaceBuildDir + @"crmConsumer"
+let crmListenerBuildDir = interfaceBuildDir + @"crmListener"
+let crmPublisherBuildDir = interfaceBuildDir + @"crmPublisher"
+let demoCrmPublisherBuildDir = interfaceBuildDir + @"demoCrmPublisher"
+let domainBuildDir = buildDir + @"domain"
+let thirdPartyConsumerBuildDir = interfaceBuildDir + @"thirdPartyConsumer"
+let thirdPartyPublisherBuildDir = interfaceBuildDir + @"thirdPartyPublisher"
+let demoContractsBuildDir = interfaceBuildDir + @"demoContracts"
+let pluginBuildDir = buildDir + @"plugin\"
+let workflowActivityBuildDir = pluginBuildDir + @"workflowActivity";
 let testDir   = @".\test\"
 
 let deployDir = @".\Publish\"
@@ -36,8 +37,9 @@ let demoCrmPublisherDeployDir = interfaceDeployDir + @"demoCrmPublisher";
 let domainDeployDir = deployDir + @"domain";
 let thirdPartyConsumerDeployDir = interfaceDeployDir + @"thirdPartyConsumer";
 let thirdPartyPublisherDeployDir = interfaceDeployDir + @"thirdPartyPublisher";
-let workflowActivityDeployDir = interfaceDeployDir + @"workflowActivity";
 let demoContractsDeployDir = interfaceDeployDir + @"demoContracts";
+let pluginDeployDir = deployDir + @"plugin\"
+let workflowActivityDeployDir = pluginDeployDir + @"workflowActivity";
 
 let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
@@ -365,6 +367,7 @@ Target "BuildCrmPublisherSetup" (fun _ ->
 
 Target "Publish" (fun _ ->
     CreateDir interfaceDeployDir
+    CreateDir pluginDeployDir
     CreateDir crmConsumerDeployDir
     CreateDir crmListenerDeployDir
     CreateDir crmPublisherDeployDir
