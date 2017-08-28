@@ -2,6 +2,7 @@
 
 This is an implementation of a realtime messaging interface for Dynamics CRM/365, using RabbitMQ and MassTransit for transporting the messages.
 The purpose is to give a base implementation and some working examples for setting up a realtime interface from and to Dynamics CRM/365.
+RabbitMQ serves as message broker and bus. You can connect as many systems as you like using this approach.
 
 ## Support
 This project uses the latest Dynamics 365 SDK, so there is support for CRM >=2011.
