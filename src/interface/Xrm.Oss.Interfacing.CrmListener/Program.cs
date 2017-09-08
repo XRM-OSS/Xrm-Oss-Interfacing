@@ -2,6 +2,7 @@
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using MassTransit;
+using NLog;
 using Topshelf;
 using Xrm.Oss.Interfacing.Domain.Contracts;
 
@@ -9,6 +10,8 @@ namespace Xrm.Oss.Interfacing.CrmListener
 {
     public class Program
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
             HostFactory.Run(x =>
@@ -24,7 +27,7 @@ namespace Xrm.Oss.Interfacing.CrmListener
                     {
                         // container should be initialized in here according to Chris Patterson
                         // https://groups.google.com/d/msg/masstransit-discuss/Pz7ttS7niGQ/A-K7MTK8aiUJ
-                        container = new WindsorContainer().Install(FromAssembly.This());
+                        container = Container.Instance;
 
                         return container.Resolve<IService>();
                     });
@@ -53,6 +56,7 @@ namespace Xrm.Oss.Interfacing.CrmListener
                 });
 
                 x.UseNLog();
+                x.OnException(ex => _logger.Error(ex));
                 x.EnableShutdown();
                 x.RunAsLocalSystem();
                 x.StartAutomatically();

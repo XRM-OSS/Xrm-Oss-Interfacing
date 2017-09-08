@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContactUpdatedConsumer.cs" />
-    <Compile Include="Container.cs" />
+    <Compile Include="IocInstaller.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContactCreatedConsumer.cs" />

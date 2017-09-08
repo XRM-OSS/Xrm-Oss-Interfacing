@@ -1,5 +1,9 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
 using System.Configuration;
+using System.IO;
+using System.Reflection;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -8,10 +12,27 @@ using MassTransit;
 using Xrm.Oss.Interfacing.Domain.Implementations;
 using Xrm.Oss.Interfacing.Domain.Contracts;
 
-namespace Xrm.Oss.Interfacing.CrmPublisher
+namespace Xrm.Oss.Interfacing.CrmConsumer
 {
-    public class Container : IWindsorInstaller
+    public class IocInstaller : IWindsorInstaller
     {
+        private void InitializePublishers()
+        {
+            var consumerPath = Path.Combine(Assembly.GetExecutingAssembly().Location, "Consumers");
+            Directory.CreateDirectory(consumerPath);
+
+            var catalog = new AggregateCatalog
+            {
+                Catalogs =
+                {
+                    new DirectoryCatalog(consumerPath)
+                }
+            };
+
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
+        }
+
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Types.FromThisAssembly().BasedOn<IConsumer>());
@@ -25,18 +46,15 @@ namespace Xrm.Oss.Interfacing.CrmPublisher
                     h.Password(ConfigurationManager.AppSettings["RabbitMq.Password"]);
                 });
 
-                cfg.ReceiveEndpoint(host, "Xrm-Oss-CrmPublisher", ec => {
+                cfg.ReceiveEndpoint(host, "Xrm-Oss-CrmConsumer", ec => {
                     ec.UseMessageScope();
                     ec.LoadFrom(container);
                 });
             });
 
-            var publisherControl = new PublisherControl();
-
             container.Register(Component.For<IBus>().Forward<IBusControl>().Instance(busControl));
             container.Register(Component.For<ILazyComponentLoader>().ImplementedBy<LazyOfTComponentLoader>());
             container.Register(Component.For<IService>().ImplementedBy<BaseService>());
-            container.Register(Component.For<IPublisherControl>().Instance(publisherControl));
         }
     }
 }

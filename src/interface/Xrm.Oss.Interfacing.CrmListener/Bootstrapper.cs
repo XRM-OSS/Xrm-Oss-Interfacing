@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Castle.Windsor;
-using Castle.Windsor.Installer;
+﻿using Castle.Windsor;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Windsor;
@@ -23,14 +17,17 @@ namespace Xrm.Oss.Interfacing.CrmListener
         {
             // Perform registrations here
             base.ConfigureApplicationContainer(existingContainer);
-
-            existingContainer.Install(FromAssembly.This());
         }
 
         protected override void RequestStartup(IWindsorContainer container, IPipelines pipelines, NancyContext context)
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during request startup.
+        }
+
+        protected override IWindsorContainer GetApplicationContainer()
+        {
+            return Container.Instance;
         }
     }
 }

@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Container.cs" />
+    <Compile Include="IocInstaller.cs" />
     <Compile Include="CrmConnection.cs" />
     <Compile Include="CrmPublisher.cs" />
     <Compile Include="Program.cs" />

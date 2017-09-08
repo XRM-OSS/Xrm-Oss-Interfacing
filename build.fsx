@@ -7,6 +7,7 @@ open System
 open System.IO
 open System.Text.RegularExpressions
 open Fake.Paket
+open Fake.Git
 
 //Project config
 let projectName = "Xrm.Oss.Interfacing"
@@ -44,18 +45,20 @@ let workflowActivityDeployDir = pluginDeployDir + @"workflowActivity";
 let nugetDir = @".\nuget\"
 let packagesDir = @".\packages\"
 
+let sha = Git.Information.getCurrentHash()
+
 // version info
-let mutable major           = "1"
-let mutable minor           = "0"
-let mutable patch           = "0"
+let major           = "1"
+let minor           = "0"
+let patch           = "1"
 let mutable build           = buildVersion
 let mutable asmVersion      = ""
-let mutable asmInfoVersion  = ""
+let mutable asmFileVersion  = ""
 
 let WiXPath = Path.Combine("packages", "WiX.Toolset", "tools", "wix")
 let WixCrmListenerProductUpgradeGuid = new Guid("84293e9b-3c43-4bec-9c7b-88af9a70269f")
 let WixCrmPublisherProductUpgradeGuid = new Guid("e6883ea5-17e1-4471-92dd-1b9106a6e26b")
-let ProductVersion () = asmInfoVersion
+let ProductVersion () = asmFileVersion
 let ProductPublisher = "Xrm-Oss"
 
 // Targets
@@ -68,21 +71,19 @@ Target "BuildVersions" (fun _ ->
     if isLocalBuild then
         build <- "0"
 
-    // AssemblyVersion should not change all the time
-    // to avoid binding redirects.
-    // Further read: https://codingforsmarties.wordpress.com/2016/01/21/how-to-version-assemblies-destined-for-nuget/
+    // Follow SemVer scheme: http://semver.org/
     asmVersion  <- major + "." + minor + "." + patch 
-    asmInfoVersion      <- major + "." + minor + "." + patch + "." + build
+    asmFileVersion      <- major + "." + minor + "." + patch + "+" + sha
 
-    SetBuildNumber asmInfoVersion // Publish version to TeamCity
+    SetBuildNumber asmFileVersion
 )
 
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src" (fun f -> 
                                               {f with
                                                   AssemblyVersion = asmVersion
-                                                  AssemblyInformationalVersion = asmInfoVersion
-                                                  AssemblyFileVersion = asmInfoVersion
+                                                  AssemblyInformationalVersion = asmVersion
+                                                  AssemblyFileVersion = asmFileVersion
                                               })
 )
 
@@ -409,7 +410,7 @@ Target "Publish" (fun _ ->
 Target "CreateNuget" (fun _ ->
     Pack (fun p ->
         {p with
-            Version = asmInfoVersion
+            Version = asmFileVersion
             OutputPath = "./Publish"
         })
 )

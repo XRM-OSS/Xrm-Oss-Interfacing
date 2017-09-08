@@ -1,6 +1,7 @@
 ﻿using System;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using NLog;
 using Topshelf;
 using Xrm.Oss.Interfacing.Domain.Contracts;
 
@@ -8,6 +9,8 @@ namespace Xrm.Oss.Interfacing.CrmConsumer
 {
     class Program
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         static void Main(string[] args)
         {
             HostFactory.Run(x =>
@@ -52,6 +55,7 @@ namespace Xrm.Oss.Interfacing.CrmConsumer
                 });
 
                 x.UseNLog();
+                x.OnException(ex => _logger.Error(ex));
                 x.EnableShutdown();
                 x.RunAsLocalSystem();
                 x.StartAutomatically();

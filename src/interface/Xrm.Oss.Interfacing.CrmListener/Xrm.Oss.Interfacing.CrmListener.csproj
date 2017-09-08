@@ -49,6 +49,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="CrmEvent.cs" />
+    <Compile Include="IocInstaller.cs" />
     <Compile Include="Modules\ActionModule.cs" />
     <Compile Include="Modules\BaseModule.cs" />
     <Compile Include="Program.cs" />
