@@ -50,7 +50,7 @@ let sha = Git.Information.getCurrentHash()
 // version info
 let major           = "1"
 let minor           = "0"
-let patch           = "1"
+let patch           = "2"
 let mutable build           = buildVersion
 let mutable asmVersion      = ""
 let mutable asmFileVersion  = ""
@@ -410,7 +410,7 @@ Target "Publish" (fun _ ->
 Target "CreateNuget" (fun _ ->
     Pack (fun p ->
         {p with
-            Version = asmFileVersion
+            Version = asmVersion
             OutputPath = "./Publish"
         })
 )
