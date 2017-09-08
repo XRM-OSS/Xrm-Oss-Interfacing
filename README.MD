@@ -74,7 +74,10 @@ Proceed with [RabbitMQ](http://www.rabbitmq.com/download.html) afterwards.
 ### Configuring
 RabbitMQ has a neat webinterface, that is not enabled by default.
 Head to your application menu and search for "RabbitMQ Command Prompt" and launch it.
-Execute ```rabbitmq-plugins enable rabbitmq_management``` from there, followed by ```rabbitmq-service start```.
+Execute ```rabbitmq-plugins enable rabbitmq_management```, ```rabbitmq-plugins enable rabbitmq_shovel``` and ```rabbitmq-plugins enable rabbitmq_shovel_management``` from there, followed by ```rabbitmq-service start```.
+
+The rabbitmq_management plugin will enable the web interface. The two shovel plugins will allow you to move failed messages from the error queues to the work queues for retrying to process them directly from the web interface, inside the queue.
+
 Afterwards, check the output of ```rabbitmqctl status```, it should not print any errors.
 
 You can then open the RabbitMQ web interface using this URL: http://localhost:15672/
