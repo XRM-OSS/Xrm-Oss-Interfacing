@@ -50,7 +50,7 @@ let sha = Git.Information.getCurrentHash()
 // version info
 let major           = "1"
 let minor           = "0"
-let patch           = "1"
+let patch           = "2"
 let mutable build           = buildVersion
 let mutable asmVersion      = ""
 let mutable asmFileVersion  = ""
@@ -58,7 +58,7 @@ let mutable asmFileVersion  = ""
 let WiXPath = Path.Combine("packages", "WiX.Toolset", "tools", "wix")
 let WixCrmListenerProductUpgradeGuid = new Guid("84293e9b-3c43-4bec-9c7b-88af9a70269f")
 let WixCrmPublisherProductUpgradeGuid = new Guid("e6883ea5-17e1-4471-92dd-1b9106a6e26b")
-let ProductVersion () = asmFileVersion
+let ProductVersion () = asmVersion
 let ProductPublisher = "Xrm-Oss"
 
 // Targets
@@ -410,7 +410,7 @@ Target "Publish" (fun _ ->
 Target "CreateNuget" (fun _ ->
     Pack (fun p ->
         {p with
-            Version = asmFileVersion
+            Version = asmVersion
             OutputPath = "./Publish"
         })
 )
