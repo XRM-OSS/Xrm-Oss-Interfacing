@@ -89,7 +89,15 @@ namespace Xrm.Oss.Interfacing.CrmPublisher
 
             Parallel.ForEach(publishers, (publisher) =>
             {
-                publisher.ProcessMessage(crmEvent, service, busControl);
+                try
+                {
+                    publisher.ProcessMessage(crmEvent, service, busControl);
+                }
+                catch(Exception ex)
+                {
+                    _logger.Error(ex, $"Unhandled exception for message {crmEvent.CorrelationId} in {publisher.GetType().Name}");
+                    throw;
+                }
             });
         }
     }

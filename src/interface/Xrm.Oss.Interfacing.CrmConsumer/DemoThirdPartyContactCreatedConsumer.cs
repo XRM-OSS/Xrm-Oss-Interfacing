@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Xrm.Sdk;
 using NLog;
@@ -35,9 +36,17 @@ namespace Xrm.Oss.Interfacing.CrmConsumer
                 }
             };
 
-            _logger.Trace($"Creating contact in CRM");
-            var guid = _service.Create(contact);
-            _logger.Info($"Successfully processed message {message.CorrelationId}");
+            try
+            {
+                _logger.Trace($"Creating contact in CRM");
+                var guid = _service.Create(contact);
+                _logger.Info($"Successfully processed message {message.CorrelationId}");
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex, $"Unhandled exception for message {message.CorrelationId}");
+                throw;
+            }
 
             return Task.FromResult(0);
         }
