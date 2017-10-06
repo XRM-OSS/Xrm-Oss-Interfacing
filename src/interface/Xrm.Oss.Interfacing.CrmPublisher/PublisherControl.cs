@@ -95,7 +95,7 @@ namespace Xrm.Oss.Interfacing.CrmPublisher
                 }
                 catch(Exception ex)
                 {
-                    _logger.Error(ex, $"Unhandled exception for message {crmEvent.CorrelationId} in {publisher.GetType().Name}");
+                    _logger.Error(ex, $"Exception occured during processing of message {crmEvent.CorrelationId} in {publisher.GetType().Name}, moving to error queue. Message: {ex.Message}");
                     throw;
                 }
             });

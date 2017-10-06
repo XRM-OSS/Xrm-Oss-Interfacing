@@ -44,7 +44,7 @@ namespace Xrm.Oss.Interfacing.CrmConsumer
             }
             catch (Exception ex)
             {
-                _logger.Error(ex, $"Unhandled exception for message {message.CorrelationId}");
+                _logger.Error(ex, $"Exception occured during processing of message {message.CorrelationId}, moving to error queue. Message: {ex.Message}");
                 throw;
             }
 
